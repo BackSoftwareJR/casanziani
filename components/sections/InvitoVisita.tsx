@@ -38,6 +38,7 @@ export function InvitoVisita() {
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start">
               <Link
                 href="#contatti"
+                data-track="cta_click:contattaci_visita"
                 className="min-h-[48px] flex items-center justify-center bg-primary-600 text-white px-6 py-4 rounded-xl font-semibold text-base hover:bg-primary-700 active:bg-primary-800 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
                 aria-label="Vai alla sezione Contatti per fissare una visita"
               >
@@ -45,6 +46,7 @@ export function InvitoVisita() {
               </Link>
               <Link
                 href="/galleria"
+                data-track="cta_click:galleria_invito"
                 className="min-h-[48px] flex items-center justify-center bg-white text-primary-600 border-2 border-primary-500 px-6 py-4 rounded-xl font-semibold text-base hover:bg-primary-50 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
                 aria-label="Esplora la galleria fotografica"
               >

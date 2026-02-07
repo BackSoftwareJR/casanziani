@@ -10,7 +10,8 @@ import { getDB, getProjectId } from '@/lib/db';
 const RATE_LIMIT_MS = 2_000;
 const VALID_EVENT_TYPES = [
   'phone_click', 'whatsapp_click', 'email_click',
-  'form_submit', 'callback_request', 'contact_form', 'other',
+  'form_submit', 'callback_request', 'contact_form',
+  'cta_click', 'nav_click', 'other',
 ] as const;
 const VALID_DEVICES = ['desktop', 'tablet', 'mobile', 'unknown'] as const;
 

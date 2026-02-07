@@ -32,6 +32,17 @@ export async function GET() {
 
   const ok = hasProjectId && hasDbConfig && dbReachable;
 
+  let hint: string | undefined;
+  if (!ok) {
+    if (dbError && (dbError.includes("'::1'") || dbError.includes('Access denied'))) {
+      hint =
+        "MySQL rifiuta la connessione (es. da ::1). Su Hostinger imposta DB_HOST=127.0.0.1 invece di localhost per usare IPv4. Poi riavvia l'app Node.";
+    } else {
+      hint =
+        "Controlla le variabili d'ambiente su Hostinger (DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, PROJECT_ID) e che l'app sia in esecuzione come Node.js (non solo sito statico).";
+    }
+  }
+
   return NextResponse.json(
     {
       ok,
@@ -40,9 +51,7 @@ export async function GET() {
       hasDbConfig,
       dbReachable,
       dbError: dbError ?? undefined,
-      hint: !ok
-        ? 'Controlla le variabili d\'ambiente su Hostinger (DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, PROJECT_ID) e che l\'app sia in esecuzione come Node.js (non solo sito statico).'
-        : undefined,
+      hint,
     },
     { status: ok ? 200 : 503 }
   );

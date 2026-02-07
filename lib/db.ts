@@ -18,7 +18,12 @@ export function getDbConfig(): {
   database: string;
   charset: string;
 } {
-  const host = getEnv('DB_HOST') ?? 'localhost';
+  let host = getEnv('DB_HOST') ?? 'localhost';
+  // Su molti host (es. Hostinger) "localhost" risolve in IPv6 (::1) e MySQL nega l'accesso
+  // (l'utente è autorizzato solo per 127.0.0.1). Forzare IPv4 evita "Access denied ... @'::1'".
+  if (host === 'localhost' || host === '::1') {
+    host = '127.0.0.1';
+  }
   const portRaw = getEnv('DB_PORT');
   const port = portRaw ? parseInt(portRaw, 10) : 3306;
   const user = getEnv('DB_USER') ?? '';

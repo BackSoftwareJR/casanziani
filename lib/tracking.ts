@@ -129,7 +129,7 @@ export async function sendHeartbeat(payload?: StatisticsPayload): Promise<void> 
 }
 
 export type TrackEventPayload = {
-  event_type: 'phone_click' | 'whatsapp_click' | 'email_click' | 'form_submit' | 'callback_request' | 'contact_form' | 'other';
+  event_type: 'phone_click' | 'whatsapp_click' | 'email_click' | 'form_submit' | 'callback_request' | 'contact_form' | 'cta_click' | 'nav_click' | 'other';
   event_value: string | null;
   page_path: string;
   referrer: string | null;

@@ -32,7 +32,7 @@ export function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
           {/* Brand */}
           <div className="sm:col-span-2 lg:col-span-4">
-            <Link href="/" className="inline-flex items-center gap-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded">
+            <Link href="/" data-track="nav_click:footer_logo" className="inline-flex items-center gap-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded">
               <Image
                 src="/images/logo.jpg"
                 alt=""
@@ -68,6 +68,7 @@ export function Footer() {
                 <li key={item.name}>
                   <Link
                     href={item.href}
+                    data-track={`nav_click:footer_${item.name.toLowerCase().replace(/\s/g, '_')}`}
                     className="text-sm text-gray-700 hover:text-primary-600 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded"
                   >
                     {item.name}
@@ -93,6 +94,7 @@ export function Footer() {
                 <li key={item.name}>
                   <Link
                     href={item.href}
+                    data-track={`nav_click:footer_${item.name.toLowerCase().replace(/\s/g, '_').replace(/-/g, '_')}`}
                     className="text-sm text-gray-700 hover:text-primary-600 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded"
                   >
                     {item.name}

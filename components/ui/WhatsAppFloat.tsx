@@ -4,6 +4,7 @@ export function WhatsAppFloat() {
   return (
     <a
       href="https://wa.me/393490631492"
+      data-track="cta_click:whatsapp_float"
       target="_blank"
       rel="noopener noreferrer"
       className="fixed bottom-6 right-6 z-50 bg-[#25D366] text-white px-4 py-3 rounded-full shadow-lg hover:bg-[#1ebf5a] transition-all duration-300 flex items-center gap-2 group focus:outline-none focus:ring-2 focus:ring-[#25D366] focus:ring-offset-2"

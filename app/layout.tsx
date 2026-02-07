@@ -7,6 +7,7 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { WhatsAppFloat } from '@/components/ui/WhatsAppFloat';
 import { TrackingProvider } from '@/components/tracking/TrackingProvider';
+import { ChunkLoadErrorHandler } from '@/components/providers/ChunkLoadErrorHandler';
 
 const openSans = Open_Sans({
   subsets: ['latin'],
@@ -192,6 +193,7 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased overflow-x-hidden">
+        <ChunkLoadErrorHandler />
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=AW-17576720313"
           strategy="lazyOnload"
@@ -204,6 +206,7 @@ export default function RootLayout({
             gtag('config', 'AW-17576720313');
           `}
         </Script>
+        <TrackingProvider />
         <AccessibilityProvider>
           <Header />
           <main id="main-content" className="min-h-screen w-full min-w-0 overflow-x-hidden">

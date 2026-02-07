@@ -3,6 +3,8 @@
 import { useEffect } from 'react';
 import { trackEvent } from '@/lib/tracking';
 
+type EventType = Parameters<typeof trackEvent>[0];
+
 function handlePhoneClick(e: Event) {
   const el = e.currentTarget as HTMLAnchorElement;
   const href = el.getAttribute('href');
@@ -58,28 +60,46 @@ function attachAll() {
   });
 }
 
+/** Gestisce click su elementi con data-track="event_type:event_value" (es. data-track="cta_click:chiama_ora_hero") */
+function handleDataTrackClick(e: Event) {
+  const target = (e.target as Element)?.closest?.('[data-track]');
+  if (!target) return;
+  const value = target.getAttribute('data-track')?.trim();
+  if (!value) return;
+  const colon = value.indexOf(':');
+  const eventType = (colon > 0 ? value.slice(0, colon) : value) as EventType;
+  const eventValue = colon > 0 ? value.slice(colon + 1) : null;
+  const allowed: EventType[] = ['cta_click', 'nav_click', 'other'];
+  if (allowed.includes(eventType)) {
+    trackEvent(eventType, eventValue);
+  }
+}
+
 export function EventTracker() {
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
     const debug = window.location.search.includes('debug=1');
 
-    // Esponi trackEvent globalmente per form (come sul vecchio script.js)
+    // Esponi trackEvent globalmente per form
     (window as unknown as { trackEvent: typeof trackEvent }).trackEvent = (
-      eventType: 'phone_click' | 'whatsapp_click' | 'email_click' | 'form_submit' | 'callback_request' | 'contact_form' | 'other',
+      eventType: EventType,
       eventValue: string | null,
       _element?: unknown
     ) => {
-      if (debug) console.log('[Tracking] trackEvent chiamato (form/altro):', eventType, eventValue);
+      if (debug) console.log('[Tracking] trackEvent chiamato:', eventType, eventValue);
       trackEvent(eventType, eventValue);
     };
 
     attachAll();
+    document.body.addEventListener('click', handleDataTrackClick, true);
+
     if (debug) {
       const tel = document.querySelectorAll('a[href^="tel:"]').length;
       const wa = document.querySelectorAll('a[href*="wa.me/"], a[href*="whatsapp.com/"]').length;
       const mail = document.querySelectorAll('a[href^="mailto:"]').length;
-      console.log('[Tracking] EventTracker attivo. Link tracciati: tel=', tel, 'whatsapp=', wa, 'email=', mail);
+      const cta = document.querySelectorAll('[data-track]').length;
+      console.log('[Tracking] EventTracker attivo. tel=', tel, 'whatsapp=', wa, 'email=', mail, 'data-track=', cta);
     }
 
     const observer = new MutationObserver(() => {
@@ -89,6 +109,7 @@ export function EventTracker() {
 
     return () => {
       observer.disconnect();
+      document.body.removeEventListener('click', handleDataTrackClick, true);
       delete (window as unknown as { trackEvent?: typeof trackEvent }).trackEvent;
     };
   }, []);

@@ -90,6 +90,7 @@ export function Contact() {
                   </p>
                   <Link
                     href="/dove-siamo"
+                    data-track="cta_click:vedi_mappa"
                     className="inline-flex items-center gap-1.5 mt-2 text-primary-600 hover:text-primary-700 font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded"
                     aria-label="Vedi l’indirizzo sulla mappa"
                   >
@@ -171,6 +172,7 @@ export function Contact() {
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
               <a
                 href={`tel:${phoneClean}`}
+                data-track="cta_click:chiama_ora_contact"
                 className="min-h-[48px] sm:min-h-[52px] flex items-center justify-center bg-primary-600 text-white px-6 py-4 rounded-xl font-semibold text-base sm:text-lg hover:bg-primary-700 active:bg-primary-800 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 shadow-md hover:shadow-lg"
                 aria-label="Chiama ora il numero di C.A.S.A"
               >
@@ -178,6 +180,7 @@ export function Contact() {
               </a>
               <a
                 href={`https://wa.me/${whatsappNumber}`}
+                data-track="cta_click:whatsapp_contact"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="min-h-[48px] sm:min-h-[52px] flex items-center justify-center bg-[#25D366] text-white px-6 py-4 rounded-xl font-semibold text-base sm:text-lg hover:bg-[#1ebf5a] active:bg-[#1aac52] transition-colors focus:outline-none focus:ring-2 focus:ring-[#25D366] focus:ring-offset-2 shadow-md hover:shadow-lg"

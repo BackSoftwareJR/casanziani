@@ -41,7 +41,7 @@ export function Header() {
         <nav className="container mx-auto px-6 sm:px-4 py-2 sm:py-3">
           <div className="flex items-center justify-between min-h-[48px] sm:min-h-[52px]">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2 shrink-0 focus:outline-none focus:ring-2 focus:ring-primary-500 rounded">
+            <Link href="/" data-track="nav_click:logo_header" className="flex items-center gap-2 shrink-0 focus:outline-none focus:ring-2 focus:ring-primary-500 rounded">
               <Image
                 src="/images/logo.jpg"
                 alt="C.A.S.A Logo"
@@ -62,6 +62,7 @@ export function Header() {
                 <Link
                   key={item.name}
                   href={item.href}
+                  data-track={`nav_click:${item.name.toLowerCase().replace(/\s/g, '_')}`}
                   className="text-gray-700 hover:text-primary-600 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-primary-600 rounded px-2 py-1"
                 >
                   {item.name}
@@ -69,6 +70,7 @@ export function Header() {
               ))}
               <Link
                 href="/#contatti"
+                data-track="cta_click:chiama_ora_header"
                 className="bg-primary-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-primary-700 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 shadow-md hover:shadow-lg"
               >
                 Chiama ora
@@ -78,6 +80,7 @@ export function Header() {
             {/* Mobile: Contattaci — sempre visibile in header */}
             <Link
               href="/#contatti"
+              data-track="cta_click:contattaci_header_mobile"
               className="lg:hidden inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold text-white bg-primary-600 hover:bg-primary-700 active:bg-primary-800 shadow-md hover:shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
               onClick={() => setIsMobileMenuOpen(false)}
             >

@@ -132,12 +132,14 @@ export function Hero() {
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center w-full sm:w-auto animate-slide-up mt-1 sm:mt-0">
           <a
             href="tel:+393490631492"
+            data-track="cta_click:chiama_ora_hero"
             className="inline-flex justify-center items-center bg-primary-600 text-white px-5 py-2.5 sm:px-6 sm:py-3 rounded-full font-medium hover:bg-primary-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 shadow-md hover:shadow-lg hover:scale-[1.02] text-sm sm:text-base"
           >
             Chiama ora
           </a>
           <Link
             href="/#contatti"
+            data-track="cta_click:vieni_a_trovarci_hero"
             className="inline-flex justify-center items-center bg-black/20 backdrop-blur-sm text-white px-5 py-2.5 sm:px-6 sm:py-3 rounded-full font-medium border-2 border-white hover:bg-black/30 transition-colors focus:outline-none focus:ring-2 focus:ring-white/60 focus:ring-offset-2 text-sm sm:text-base"
           >
             Vieni a trovarci

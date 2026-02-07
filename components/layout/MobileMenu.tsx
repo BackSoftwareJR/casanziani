@@ -65,6 +65,7 @@ export function MobileMenu({ isOpen, onClose, navigation }: MobileMenuProps) {
             <li key={item.name}>
               <Link
                 href={item.href}
+                data-track={`nav_click:menu_${item.name.toLowerCase().replace(/\s/g, '_')}`}
                 onClick={onClose}
                 className="block text-lg font-semibold text-gray-800 hover:text-primary-600 hover:bg-primary-50 py-4 px-4 rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-inset"
               >
@@ -75,6 +76,7 @@ export function MobileMenu({ isOpen, onClose, navigation }: MobileMenuProps) {
           <li className="pt-4 mt-4 border-t border-gray-200">
             <a
               href="tel:+393490631492"
+              data-track="cta_click:chiama_ora_menu_mobile"
               onClick={onClose}
               className="flex items-center justify-center w-full bg-primary-600 text-white px-6 py-4 rounded-xl font-semibold text-lg hover:bg-primary-700 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
             >

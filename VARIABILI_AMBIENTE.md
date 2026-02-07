@@ -27,7 +27,7 @@ Imposta queste variabili nell’app Node.js su Hostinger (stesso database del ve
 
 | Variabile    | Cosa mettere | Esempio (dal PHP) |
 |-------------|--------------|--------------------|
-| **DB_HOST** | Host MySQL (nel pannello Hostinger è spesso `localhost`) | `localhost` |
+| **DB_HOST** | Host MySQL. **Su Hostinger usa `127.0.0.1`** invece di `localhost` per evitare "Access denied ... @'::1'" (IPv6). | `127.0.0.1` |
 | **DB_PORT** | Porta MySQL (solo se Hostinger la richiede) | `3306` |
 | **DB_NAME** | Nome del database | `u589701076_salute` |
 | **DB_USER** | Utente MySQL | `u589701076_usersalute` |
@@ -42,7 +42,7 @@ Imposta queste variabili nell’app Node.js su Hostinger (stesso database del ve
 ## 3. Riepilogo veloce
 
 ```
-DB_HOST=localhost
+DB_HOST=127.0.0.1
 DB_PORT=3306
 DB_NAME=u589701076_salute
 DB_USER=u589701076_usersalute
@@ -50,6 +50,8 @@ DB_PASSWORD=<la_tua_password_MySQL>
 DB_CHARSET=utf8mb4
 PROJECT_ID=6
 ```
+
+**Importante:** usa **DB_HOST=127.0.0.1** (non `localhost`). Su Hostinger con `localhost` il sistema usa IPv6 (`::1`) e MySQL spesso nega l’accesso con "Access denied for user ... @'::1'".
 
 Sostituisci `<la_tua_password_MySQL>` con la password reale del database (quella che usavi nel file `.env` del PHP, in `DB_PASS`).
 
