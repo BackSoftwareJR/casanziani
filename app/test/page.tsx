@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import {
   sendStatistics,
@@ -9,199 +9,327 @@ import {
   trackEvent,
 } from '@/lib/tracking';
 
-type StatusResult = {
-  ok?: boolean;
-  api?: boolean;
-  hasProjectId?: boolean;
-  hasDbConfig?: boolean;
-  dbReachable?: boolean;
-  dbError?: string;
-  hint?: string;
-} | null;
+type LogEntry = {
+  id: string;
+  time: string;
+  type: 'info' | 'success' | 'error' | 'request' | 'response';
+  title: string;
+  detail?: string | object;
+};
+
+function useDebugLog() {
+  const [logs, setLogs] = useState<LogEntry[]>([]);
+  const add = useCallback((type: LogEntry['type'], title: string, detail?: string | object) => {
+    const entry: LogEntry = {
+      id: `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
+      time: new Date().toLocaleTimeString('it-IT', { hour12: false }),
+      type,
+      title,
+      detail,
+    };
+    setLogs((prev) => [...prev.slice(-99), entry]);
+  }, []);
+  const clear = useCallback(() => setLogs([]), []);
+  return { logs, add, clear };
+}
+
+/** Fetch con cache disabilitata e URL assoluto */
+async function fetchNoCache(
+  path: string,
+  options: RequestInit = {}
+): Promise<{ url: string; status: number; statusText: string; body: string; ok: boolean }> {
+  const origin = typeof window !== 'undefined' ? window.location.origin : '';
+  const url = `${origin}${path}${path.includes('?') ? '&' : '?'}_t=${Date.now()}`;
+  const res = await fetch(url, {
+    ...options,
+    cache: 'no-store',
+    headers: {
+      'Cache-Control': 'no-cache',
+      Pragma: 'no-cache',
+      ...options.headers,
+    },
+  });
+  const body = await res.text();
+  return { url, status: res.status, statusText: res.statusText, body, ok: res.ok };
+}
 
 export default function TestPage() {
-  const [status, setStatus] = useState<StatusResult>(null);
-  const [statusLoading, setStatusLoading] = useState(false);
-  const [lastAction, setLastAction] = useState<string>('');
+  const { logs, add, clear } = useDebugLog();
+  const [statusResult, setStatusResult] = useState<{
+    url: string;
+    status: number;
+    body: string;
+    parsed?: object;
+  } | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [clientInfo, setClientInfo] = useState<Record<string, string>>({});
 
-  const debugUrl =
-    typeof window !== 'undefined'
-      ? window.location.search.includes('debug=1')
-        ? window.location.pathname + window.location.search
-        : `${window.location.pathname}${window.location.search ? window.location.search + '&' : '?'}debug=1`
-      : '/test?debug=1';
+  const runStatusCheck = useCallback(async () => {
+    setLoading(true);
+    setStatusResult(null);
+    add('info', 'Richiesta GET /api/track/status (senza cache)...');
+    try {
+      const { url, status, statusText, body } = await fetchNoCache('/api/track/status');
+      setStatusResult({ url, status, body });
+      let parsed: object | undefined;
+      try {
+        parsed = body ? JSON.parse(body) : undefined;
+      } catch {
+        parsed = undefined;
+      }
+      if (status === 404) {
+        add('error', `404 – API non disponibili`, {
+          url,
+          status,
+          statusText,
+          body: body.slice(0, 500),
+          interpretazione: 'Le route /api/* non esistono. Su Hostinger l\'app deve girare come Node.js (npm run start), non come sito statico.',
+        });
+      } else if (!status.toString().startsWith('2')) {
+        add('error', `${status} ${statusText}`, { url, status, body: body.slice(0, 500), parsed });
+      } else {
+        add('success', `Status OK ${status}`, { url, parsed });
+      }
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      add('error', 'Fetch fallita', { message, interpretazione: 'Rete bloccata, CORS, o dominio diverso. Verifica che l\'URL della pagina sia lo stesso dominio dove sono deployate le API.' });
+      setStatusResult({ url: '', status: 0, body: message });
+    } finally {
+      setLoading(false);
+    }
+  }, [add]);
 
   useEffect(() => {
-    setStatus(null);
-    setStatusLoading(true);
-    fetch('/api/track/status')
-      .then((res) => res.json())
-      .then((data) => setStatus(data))
-      .catch(() => setStatus({ ok: false, hint: 'Impossibile raggiungere /api/track/status (404 = API non disponibili)' }))
-      .finally(() => setStatusLoading(false));
+    if (typeof window !== 'undefined') {
+      setClientInfo({
+        'URL attuale': window.location.href,
+        'Origin': window.location.origin,
+        'Pathname': window.location.pathname,
+        'User-Agent': navigator.userAgent.slice(0, 60) + '…',
+      });
+    }
   }, []);
 
+  useEffect(() => {
+    runStatusCheck();
+  }, [runStatusCheck]);
+
   const handleSendStatistics = async () => {
-    setLastAction('Invio statistiche visita...');
     const payload = buildStatisticsPayload();
-    await sendStatistics(payload);
-    setLastAction('Statistiche inviate. Controlla la Console (F12) se hai ?debug=1.');
+    const url = `${typeof window !== 'undefined' ? window.location.origin : ''}/api/track/statistics`;
+    add('request', 'POST /api/track/statistics', { payload, url });
+    try {
+      const res = await fetch(url + `?_t=${Date.now()}`, {
+        method: 'POST',
+        cache: 'no-store',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest',
+          'Cache-Control': 'no-cache',
+        },
+        body: JSON.stringify(payload),
+      });
+      const text = await res.text();
+      let parsed: unknown = null;
+      try {
+        parsed = text ? JSON.parse(text) : null;
+      } catch {
+        parsed = text;
+      }
+      if (res.ok) {
+        add('success', `Statistiche inviate ${res.status}`, { status: res.status, body: parsed });
+      } else {
+        add('error', `Statistiche ${res.status} ${res.statusText}`, { status: res.status, body: parsed });
+      }
+    } catch (err) {
+      add('error', 'Statistiche – fetch fallita', err instanceof Error ? err.message : String(err));
+    }
   };
 
   const handleSendHeartbeat = async () => {
-    setLastAction('Invio heartbeat...');
     const payload = buildStatisticsPayload();
-    await sendHeartbeat(payload);
-    setLastAction('Heartbeat inviato. Controlla la Console (F12) se hai ?debug=1.');
+    const url = `${typeof window !== 'undefined' ? window.location.origin : ''}/api/track/visitor`;
+    add('request', 'POST /api/track/visitor', { payload, url });
+    try {
+      const res = await fetch(url + `?_t=${Date.now()}`, {
+        method: 'POST',
+        cache: 'no-store',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest',
+          'Cache-Control': 'no-cache',
+        },
+        body: JSON.stringify(payload),
+      });
+      const text = await res.text();
+      let parsed: unknown = null;
+      try {
+        parsed = text ? JSON.parse(text) : null;
+      } catch {
+        parsed = text;
+      }
+      if (res.ok) {
+        add('success', `Heartbeat inviato ${res.status}`, { status: res.status, body: parsed });
+      } else {
+        add('error', `Heartbeat ${res.status} ${res.statusText}`, { status: res.status, body: parsed });
+      }
+    } catch (err) {
+      add('error', 'Heartbeat – fetch fallita', err instanceof Error ? err.message : String(err));
+    }
   };
 
   const handleTestEvent = (type: 'phone_click' | 'whatsapp_click' | 'email_click', value: string) => {
-    setLastAction(`Evento: ${type} = ${value}`);
+    add('request', `Evento ${type}`, { event_value: value });
     trackEvent(type, value);
+    add('info', `Evento "${type}" inviato (sendBeacon o fetch)`);
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-2xl mx-auto">
-        <h1 className="font-serif text-3xl font-bold text-primary-800 mb-2">
-          Pagina di test – Tracking
-        </h1>
-        <p className="text-gray-600 mb-8">
-          Usa questa pagina per verificare visite, heartbeat (utenti online) e eventi (click telefono/WhatsApp/email).
-          Apri la <strong>Console</strong> (F12 → Console) e, per vedere i log, visita la pagina con{' '}
-          <strong>
-            <Link href={debugUrl} className="text-primary-600 underline">
-              ?debug=1
-            </Link>
-          </strong>
-          .
-        </p>
+    <div className="min-h-screen bg-gray-100 py-8 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-3xl mx-auto space-y-6">
+        <div className="flex items-center justify-between gap-4 flex-wrap">
+          <h1 className="font-serif text-2xl sm:text-3xl font-bold text-gray-900">
+            Debug tracking
+          </h1>
+          <Link
+            href="/"
+            className="text-sm text-primary-600 hover:underline font-medium"
+          >
+            ← Home
+          </Link>
+        </div>
 
-        {/* Stato API e DB */}
-        <section className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
-          <h2 className="font-semibold text-lg text-gray-800 mb-3">Stato API e database</h2>
-          {statusLoading && <p className="text-gray-500">Caricamento...</p>}
-          {!statusLoading && status && (
+        {/* Contesto client */}
+        <section className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
+          <h2 className="font-semibold text-gray-800 mb-2">Contesto (browser)</h2>
+          <pre className="text-xs bg-gray-50 p-3 rounded overflow-x-auto">
+            {Object.entries(clientInfo).map(([k, v]) => `${k}: ${v}`).join('\n') || '…'}
+          </pre>
+        </section>
+
+        {/* Stato API /api/track/status */}
+        <section className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
+          <div className="flex items-center justify-between gap-2 mb-2">
+            <h2 className="font-semibold text-gray-800">GET /api/track/status</h2>
+            <button
+              type="button"
+              onClick={runStatusCheck}
+              disabled={loading}
+              className="text-sm px-3 py-1.5 bg-primary-600 text-white rounded hover:bg-primary-700 disabled:opacity-50"
+            >
+              {loading ? 'Caricamento…' : 'Riprova'}
+            </button>
+          </div>
+          {statusResult && (
             <div className="space-y-2 text-sm">
               <p>
-                <span className="font-medium">API:</span>{' '}
-                {status.api ? '✓ disponibili' : '✗ non disponibili'}
+                <span className="font-medium">URL richiesta:</span>{' '}
+                <code className="bg-gray-100 px-1 rounded break-all">{statusResult.url || '(fetch fallita)'}</code>
               </p>
               <p>
-                <span className="font-medium">PROJECT_ID:</span>{' '}
-                {status.hasProjectId ? '✓ impostato' : '✗ mancante'}
+                <span className="font-medium">Status HTTP:</span>{' '}
+                <span className={statusResult.status === 404 ? 'text-red-600 font-semibold' : statusResult.status >= 200 && statusResult.status < 300 ? 'text-green-600' : 'text-amber-600'}>
+                  {statusResult.status} {statusResult.status && statusResult.status === 404 && '→ API non disponibili (sito statico o Node non in esecuzione)'}
+                </span>
               </p>
-              <p>
-                <span className="font-medium">Config DB:</span>{' '}
-                {status.hasDbConfig ? '✓ presente' : '✗ mancante'}
-              </p>
-              <p>
-                <span className="font-medium">Connessione DB:</span>{' '}
-                {status.dbReachable ? '✓ ok' : status.dbError ? `✗ ${status.dbError}` : '✗ non raggiungibile'}
-              </p>
-              {status.hint && (
-                <p className="mt-3 text-amber-700 bg-amber-50 p-3 rounded">
-                  {status.hint}
-                </p>
-              )}
+              <pre className="text-xs bg-gray-50 p-3 rounded overflow-x-auto max-h-48 overflow-y-auto whitespace-pre-wrap">
+                {statusResult.body || '(vuoto)'}
+              </pre>
             </div>
           )}
         </section>
 
-        {/* Azioni manuali */}
-        <section className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
-          <h2 className="font-semibold text-lg text-gray-800 mb-3">Invii manuali</h2>
-          <p className="text-gray-600 text-sm mb-4">
-            Clicca per inviare una richiesta. Con <code className="bg-gray-100 px-1 rounded">?debug=1</code> vedi i log in console.
-          </p>
-          <div className="flex flex-wrap gap-3">
+        {/* Azioni e log */}
+        <section className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
+          <h2 className="font-semibold text-gray-800 mb-2">Invii manuali (risposta sotto in Log)</h2>
+          <div className="flex flex-wrap gap-2">
             <button
               type="button"
               onClick={handleSendStatistics}
-              className="px-4 py-2 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition-colors"
+              className="px-3 py-2 bg-primary-600 text-white rounded-lg text-sm font-medium hover:bg-primary-700"
             >
-              Invia statistica visita
+              POST /api/track/statistics
             </button>
             <button
               type="button"
               onClick={handleSendHeartbeat}
-              className="px-4 py-2 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition-colors"
+              className="px-3 py-2 bg-primary-600 text-white rounded-lg text-sm font-medium hover:bg-primary-700"
             >
-              Invia heartbeat (utenti online)
+              POST /api/track/visitor
             </button>
-          </div>
-          {lastAction && (
-            <p className="mt-3 text-sm text-gray-600">{lastAction}</p>
-          )}
-        </section>
-
-        {/* Link per test eventi (come nel sito reale) */}
-        <section className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
-          <h2 className="font-semibold text-lg text-gray-800 mb-3">Test eventi (click)</h2>
-          <p className="text-gray-600 text-sm mb-4">
-            Clicca sui link sotto: devono essere tracciati come nel sito (telefono, WhatsApp, email).
-          </p>
-          <ul className="space-y-2">
-            <li>
-              <a
-                href="tel:+393490631492"
-                className="text-primary-600 underline font-medium"
-              >
-                Telefono: +39 349 063 1492
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://wa.me/393490631492"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary-600 underline font-medium"
-              >
-                WhatsApp
-              </a>
-            </li>
-            <li>
-              <a
-                href="mailto:info@casanziani.com"
-                className="text-primary-600 underline font-medium"
-              >
-                Email: info@casanziani.com
-              </a>
-            </li>
-          </ul>
-          <p className="mt-3 text-sm text-gray-500">
-            Oppure invia evento senza aprire il link:
-          </p>
-          <div className="flex flex-wrap gap-2 mt-2">
             <button
               type="button"
               onClick={() => handleTestEvent('phone_click', '+393490631492')}
-              className="px-3 py-1.5 bg-gray-200 rounded text-sm hover:bg-gray-300"
+              className="px-3 py-2 bg-gray-200 rounded-lg text-sm hover:bg-gray-300"
             >
               Evento: phone_click
             </button>
             <button
               type="button"
               onClick={() => handleTestEvent('whatsapp_click', 'https://wa.me/393490631492')}
-              className="px-3 py-1.5 bg-gray-200 rounded text-sm hover:bg-gray-300"
+              className="px-3 py-2 bg-gray-200 rounded-lg text-sm hover:bg-gray-300"
             >
               Evento: whatsapp_click
             </button>
             <button
               type="button"
               onClick={() => handleTestEvent('email_click', 'info@casanziani.com')}
-              className="px-3 py-1.5 bg-gray-200 rounded text-sm hover:bg-gray-300"
+              className="px-3 py-2 bg-gray-200 rounded-lg text-sm hover:bg-gray-300"
             >
               Evento: email_click
             </button>
           </div>
         </section>
 
-        <p className="text-sm text-gray-500">
-          <Link href="/" className="text-primary-600 underline">
-            ← Torna alla home
-          </Link>
-        </p>
+        {/* Log approfondito */}
+        <section className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
+          <div className="flex items-center justify-between gap-2 mb-2">
+            <h2 className="font-semibold text-gray-800">Log (tutto ciò che succede)</h2>
+            <button
+              type="button"
+              onClick={clear}
+              className="text-sm text-gray-500 hover:text-gray-700"
+            >
+              Pulisci
+            </button>
+          </div>
+          <div className="bg-gray-900 text-gray-100 rounded p-3 font-mono text-xs max-h-96 overflow-y-auto space-y-2">
+            {logs.length === 0 && <p className="text-gray-500">Nessun log ancora.</p>}
+            {logs.map((entry) => (
+              <div key={entry.id} className="border-b border-gray-700 pb-2 last:border-0">
+                <span className="text-gray-500">[{entry.time}]</span>{' '}
+                <span
+                  className={
+                    entry.type === 'error'
+                      ? 'text-red-400'
+                      : entry.type === 'success'
+                        ? 'text-green-400'
+                        : entry.type === 'request'
+                          ? 'text-blue-300'
+                          : 'text-gray-300'
+                  }
+                >
+                  {entry.title}
+                </span>
+                {entry.detail !== undefined && (
+                  <pre className="mt-1 ml-4 text-gray-400 whitespace-pre-wrap break-words">
+                    {typeof entry.detail === 'object' ? JSON.stringify(entry.detail, null, 2) : String(entry.detail)}
+                  </pre>
+                )}
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Interpretazione 404 */}
+        <section className="bg-amber-50 border border-amber-200 rounded-lg p-4">
+          <h2 className="font-semibold text-amber-900 mb-2">Se vedi 404 su /api/track/status</h2>
+          <ul className="text-sm text-amber-800 space-y-1 list-disc list-inside">
+            <li>Le route <code className="bg-amber-100 px-1">/api/*</code> esistono solo se l’app Next.js gira come <strong>Node.js</strong> (<code>npm run build</code> + <code>npm run start</code>).</li>
+            <li>Se su Hostinger hai pubblicato solo i file statici (HTML/JS/CSS), le API non ci sono e otterrai sempre 404.</li>
+            <li>Configura su Hostinger un’<strong>applicazione Node.js</strong> per il dominio e imposta il comando di avvio (es. <code>npm start</code> o <code>node server.js</code>).</li>
+          </ul>
+        </section>
       </div>
     </div>
   );
