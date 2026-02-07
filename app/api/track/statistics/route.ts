@@ -1,22 +1,32 @@
 /**
- * API statistiche visite (sostituisce track_statistics.php).
- * Usa solo variabili d'ambiente: DB_*, PROJECT_ID.
+ * Tracking statistiche. Con NEXT_PUBLIC_TRACKING_API_URL il tracking è su api.casanziani.com:
+ * questa route risponde 410 e non carica mai il DB (meno memoria su Node).
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
-import { getDB, getProjectId } from '@/lib/db';
-import { detectDeviceType, detectBrowser, detectOS, isBot } from '@/lib/tracking-server';
 
-async function getOrCreateSessionId(): Promise<{ sessionId: string; setCookie: boolean }> {
-  const cookieStore = await cookies();
-  const existing = cookieStore.get('track_sid')?.value;
-  if (existing) return { sessionId: existing, setCookie: false };
-  return { sessionId: crypto.randomUUID(), setCookie: true };
-}
+const TRACKING_API = process.env.NEXT_PUBLIC_TRACKING_API_URL?.replace(/\/$/, '') || '';
+
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
 
 export async function POST(request: NextRequest) {
-  const { sessionId, setCookie: needSetCookie } = await getOrCreateSessionId();
+  if (TRACKING_API) {
+    return NextResponse.json(
+      { migrated: true, use: TRACKING_API + '/track/statistics.php' },
+      { status: 410 }
+    );
+  }
+
+  const { getDB, getProjectId } = await import('@/lib/db');
+  const { detectDeviceType, detectBrowser, detectOS, isBot } = await import('@/lib/tracking-server');
+  const { cookies } = await import('next/headers');
+
+  const cookieStore = await cookies();
+  const existing = cookieStore.get('track_sid')?.value;
+  const sessionId = existing ?? crypto.randomUUID();
+  const needSetCookie = !existing;
+
   let body: Record<string, unknown> = {};
   try {
     body = await request.json();

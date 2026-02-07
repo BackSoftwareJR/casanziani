@@ -1,22 +1,32 @@
 /**
- * Tracking client: invia statistiche, heartbeat (utenti online) ed eventi.
- * Due modalità (in build time):
- * - Next.js API: /api/track/statistics, /api/track/visitor, /api/track/event (richiede DB e env su Node).
- * - PHP: /track_statistics.php, /track_visitor.php, /track_event.php (usa il backend PHP già sul server, stesso DB).
- * Con NEXT_PUBLIC_USE_PHP_TRACKING=1 il frontend chiama i file PHP; non servono variabili d'ambiente su Node per il tracking.
+ * Tracking client: statistiche, heartbeat (utenti online), eventi.
+ * Se NEXT_PUBLIC_TRACKING_API_URL è impostato (es. https://api.casanziani.com), tutte le richieste
+ * vanno lì (/track/statistics.php, /track/visitor.php, /track/event.php). Niente DB né env su Node per il tracking.
+ * Altrimenti: stesso dominio con /api/track/... (richiede DB su Node) o /track_*.php se USE_PHP_TRACKING.
  *
- * Debug: ?debug=1 nell'URL + Console (F12) per vedere invii e risposte.
+ * Debug: ?debug=1 + Console (F12).
  */
 
 const TRACKING_ENABLED = true;
 const HEARTBEAT_INTERVAL_MS = 30000;
 const INACTIVE_TIMEOUT_MS = 300000;
 
+const TRACKING_API_BASE =
+  typeof process !== 'undefined' && process.env.NEXT_PUBLIC_TRACKING_API_URL
+    ? process.env.NEXT_PUBLIC_TRACKING_API_URL.replace(/\/$/, '')
+    : '';
+
 const USE_PHP_TRACKING =
+  !TRACKING_API_BASE &&
   typeof process !== 'undefined' &&
   (process.env.NEXT_PUBLIC_USE_PHP_TRACKING === '1' || process.env.NEXT_PUBLIC_USE_PHP_TRACKING === 'true');
 
 function api(path: string): string {
+  if (TRACKING_API_BASE) {
+    if (path === '/statistics') return TRACKING_API_BASE + '/track/statistics.php';
+    if (path === '/visitor') return TRACKING_API_BASE + '/track/visitor.php';
+    if (path === '/event') return TRACKING_API_BASE + '/track/event.php';
+  }
   if (USE_PHP_TRACKING) {
     if (path === '/statistics') return '/track_statistics.php';
     if (path === '/visitor') return '/track_visitor.php';
@@ -24,6 +34,8 @@ function api(path: string): string {
   }
   return `/api/track${path}`;
 }
+
+const isCrossOrigin = Boolean(TRACKING_API_BASE);
 
 /** Attiva con ?debug=1 nell'URL per vedere i log in console */
 function isTrackingDebug(): boolean {
@@ -79,7 +91,7 @@ export async function sendStatistics(payload?: StatisticsPayload): Promise<void>
     const res = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
-      credentials: 'same-origin',
+      credentials: isCrossOrigin ? 'omit' : 'same-origin',
       body: JSON.stringify(data),
     });
     const text = await res.text();
@@ -113,7 +125,7 @@ export async function sendHeartbeat(payload?: StatisticsPayload): Promise<void> 
     const res = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
-      credentials: 'same-origin',
+      credentials: isCrossOrigin ? 'omit' : 'same-origin',
       body: JSON.stringify(data),
     });
     const text = await res.text();
@@ -173,7 +185,7 @@ export function trackEvent(
   fetch(endpoint, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
-    credentials: 'same-origin',
+    credentials: isCrossOrigin ? 'omit' : 'same-origin',
     body,
   })
     .then((res) => {

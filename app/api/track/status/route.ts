@@ -1,18 +1,14 @@
 /**
- * Diagnostica tracking: verifica che API, variabili d'ambiente e DB siano ok.
- * Apri nel browser: https://tuosito.com/api/track/status
- * Non espone password né dati sensibili.
+ * Diagnostica tracking. Con NEXT_PUBLIC_TRACKING_API_URL risponde subito senza caricare il DB (meno memoria).
  */
 
 import { NextResponse } from 'next/server';
-import { getDB, getDbConfig, getProjectId } from '@/lib/db';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
 const ENV_KEYS = ['DB_HOST', 'DB_PORT', 'DB_NAME', 'DB_USER', 'DB_PASSWORD', 'DB_CHARSET', 'PROJECT_ID'] as const;
 
-/** Restituisce quali chiavi env sono presenti (solo nomi, nessun valore esposto) */
 function getEnvKeysPresent(): Record<string, boolean> {
   const out: Record<string, boolean> = {};
   for (const key of ENV_KEYS) {
@@ -22,7 +18,6 @@ function getEnvKeysPresent(): Record<string, boolean> {
   return out;
 }
 
-/** Elenca le chiavi in process.env che assomigliano a DB_ o PROJECT (per capire prefissi/nomi usati da Hostinger) */
 function getRelevantEnvKeyNames(): string[] {
   const lower = (s: string) => s.toLowerCase();
   return Object.keys(process.env).filter((k) => {
@@ -32,8 +27,22 @@ function getRelevantEnvKeyNames(): string[] {
 }
 
 export async function GET() {
+  const trackingApiUrl = process.env.NEXT_PUBLIC_TRACKING_API_URL?.replace(/\/$/, '') || '';
   const usePhpTracking =
     process.env.NEXT_PUBLIC_USE_PHP_TRACKING === '1' || process.env.NEXT_PUBLIC_USE_PHP_TRACKING === 'true';
+
+  if (trackingApiUrl) {
+    return NextResponse.json({
+      ok: true,
+      api: true,
+      backend: 'external',
+      trackingApiUrl,
+      hasProjectId: true,
+      hasDbConfig: true,
+      dbReachable: true,
+      message: 'Tracking gestito da ' + trackingApiUrl + '. Nessun DB richiesto da Node.',
+    });
+  }
   if (usePhpTracking) {
     return NextResponse.json({
       ok: true,
@@ -42,22 +51,20 @@ export async function GET() {
       hasProjectId: true,
       hasDbConfig: true,
       dbReachable: true,
-      message: 'Tracking gestito dai file PHP (track_visitor.php, track_statistics.php, track_event.php). Nessun DB richiesto da Node.',
+      message: 'Tracking gestito dai file PHP (stesso dominio). Nessun DB richiesto da Node.',
     });
   }
 
+  const { getDB, getDbConfig, getProjectId } = await import('@/lib/db');
   const envKeysPresent = getEnvKeysPresent();
   const relevantEnvKeyNames = getRelevantEnvKeyNames();
-
   const projectId = getProjectId();
   const hasProjectId = projectId != null && projectId > 0;
   const config = getDbConfig();
-  const hasDbConfig =
-    Boolean(config.host && config.user && config.database);
+  const hasDbConfig = Boolean(config.host && config.user && config.database);
 
   let dbReachable = false;
   let dbError: string | null = null;
-
   if (hasDbConfig) {
     try {
       const pool = await getDB();
@@ -69,20 +76,17 @@ export async function GET() {
   }
 
   const ok = hasProjectId && hasDbConfig && dbReachable;
-
   let hint: string | undefined;
   if (!ok) {
     if (!hasDbConfig || !hasProjectId) {
       const missing = ENV_KEYS.filter((k) => !envKeysPresent[k]);
       hint = missing.length > 0
-        ? `Chiavi mancanti in process.env: ${missing.join(', ')}. Nomi devono essere ESATTI (es. DB_PASSWORD non DB_PASS). Se in Hostinger le vedi tutte, probabilmente le variabili sono solo per il build: devono essere impostate per il processo che esegue "npm start" (runtime). Controlla anche se le chiavi hanno prefissi (es. vedi envKeyNamesConDB).`
-        : "Le variabili ci sono ma hasDbConfig/hasProjectId sono false: controlla che i valori non siano vuoti e che PROJECT_ID sia un numero. Riavvia l'app Node dopo aver modificato.";
+        ? `Chiavi mancanti in process.env: ${missing.join(', ')}. Usa api.casanziani.com (NEXT_PUBLIC_TRACKING_API_URL) per non usare il DB su Node.`
+        : "Variabili presenti ma hasDbConfig/hasProjectId false. Riavvia l'app Node.";
     } else if (dbError && (dbError.includes("'::1'") || dbError.includes('Access denied'))) {
-      hint =
-        "MySQL rifiuta la connessione (es. da ::1). Imposta DB_HOST=127.0.0.1 invece di localhost, poi riavvia l'app Node.";
+      hint = "MySQL rifiuta la connessione. Imposta DB_HOST=127.0.0.1, poi riavvia.";
     } else {
-      hint =
-        "Controlla DB_HOST, DB_USER, DB_PASSWORD, DB_NAME. Imposta DB_HOST=127.0.0.1 se usi localhost. Riavvia l'app dopo aver modificato le variabili.";
+      hint = "Controlla DB e variabili. Riavvia l'app.";
     }
   }
 

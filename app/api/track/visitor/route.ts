@@ -1,26 +1,34 @@
 /**
- * API tracking visitatori online (sostituisce track_visitor.php).
- * Usa solo variabili d'ambiente lato server: DB_*, PROJECT_ID. Non esporre .env.
+ * Tracking visitatori online. Con NEXT_PUBLIC_TRACKING_API_URL il tracking è su api.casanziani.com:
+ * questa route risponde 410 e non carica mai il DB (meno memoria su Node).
  */
 
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import { getDB, getProjectId } from '@/lib/db';
-import { anonymizeIp } from '@/lib/tracking-server';
 
+const TRACKING_API = process.env.NEXT_PUBLIC_TRACKING_API_URL?.replace(/\/$/, '') || '';
 const RATE_LIMIT_MS = 10_000;
 const sessionLastRequest = new Map<string, number>();
 
-async function getOrCreateSessionId(_request: NextRequest): Promise<{ sessionId: string; setCookie: boolean }> {
-  const cookieStore = await cookies();
-  const existing = cookieStore.get('track_sid')?.value;
-  if (existing) return { sessionId: existing, setCookie: false };
-  const newId = crypto.randomUUID();
-  return { sessionId: newId, setCookie: true };
-}
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
 
 export async function POST(request: NextRequest) {
-  const { sessionId, setCookie: needSetCookie } = await getOrCreateSessionId(request);
+  if (TRACKING_API) {
+    return NextResponse.json(
+      { migrated: true, use: TRACKING_API + '/track/visitor.php' },
+      { status: 410 }
+    );
+  }
+
+  const { getDB, getProjectId } = await import('@/lib/db');
+  const { anonymizeIp } = await import('@/lib/tracking-server');
+
+  const cookieStore = await cookies();
+  const existing = cookieStore.get('track_sid')?.value;
+  const sessionId = existing ?? crypto.randomUUID();
+  const needSetCookie = !existing;
+
   const now = Date.now();
   const last = sessionLastRequest.get(sessionId);
   if (last != null && now - last < RATE_LIMIT_MS) {

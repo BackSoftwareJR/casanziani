@@ -1,12 +1,12 @@
 /**
- * API tracking eventi click (sostituisce track_event.php).
- * Usa solo variabili d'ambiente: DB_*, PROJECT_ID. Il project_id viene preso dal server, non dal client.
+ * Tracking eventi click. Con NEXT_PUBLIC_TRACKING_API_URL il tracking è su api.casanziani.com:
+ * questa route risponde 410 e non carica mai il DB (meno memoria su Node).
  */
 
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import { getDB, getProjectId } from '@/lib/db';
 
+const TRACKING_API = process.env.NEXT_PUBLIC_TRACKING_API_URL?.replace(/\/$/, '') || '';
 const RATE_LIMIT_MS = 2_000;
 const VALID_EVENT_TYPES = [
   'phone_click', 'whatsapp_click', 'email_click',
@@ -14,18 +14,26 @@ const VALID_EVENT_TYPES = [
   'cta_click', 'nav_click', 'other',
 ] as const;
 const VALID_DEVICES = ['desktop', 'tablet', 'mobile', 'unknown'] as const;
-
 const sessionLastRequest = new Map<string, number>();
 
-async function getOrCreateSessionId(_request: NextRequest): Promise<{ sessionId: string; setCookie: boolean }> {
-  const cookieStore = await cookies();
-  const existing = cookieStore.get('track_sid')?.value;
-  if (existing) return { sessionId: existing, setCookie: false };
-  return { sessionId: crypto.randomUUID(), setCookie: true };
-}
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
 
 export async function POST(request: NextRequest) {
-  const { sessionId, setCookie: needSetCookie } = await getOrCreateSessionId(request);
+  if (TRACKING_API) {
+    return NextResponse.json(
+      { migrated: true, use: TRACKING_API + '/track/event.php' },
+      { status: 410 }
+    );
+  }
+
+  const { getDB, getProjectId } = await import('@/lib/db');
+
+  const cookieStore = await cookies();
+  const existing = cookieStore.get('track_sid')?.value;
+  const sessionId = existing ?? crypto.randomUUID();
+  const needSetCookie = !existing;
+
   const now = Date.now();
   const last = sessionLastRequest.get(sessionId);
   if (last != null && now - last < RATE_LIMIT_MS) {
