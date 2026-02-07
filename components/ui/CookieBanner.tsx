@@ -30,7 +30,7 @@ export function CookieBanner() {
         <div className="flex-1">
           <p className="text-sm text-gray-700">
             Questo sito utilizza cookie per migliorare la tua esperienza di navigazione.
-            Continuando a navigare, accetti l'utilizzo dei cookie.{' '}
+            Continuando a navigare, accetti l&apos;utilizzo dei cookie.{' '}
             <a
               href="/cookie-policy"
               className="text-primary-500 hover:text-primary-600 underline focus:outline-none focus:ring-2 focus:ring-primary-500 rounded"

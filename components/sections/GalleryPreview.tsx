@@ -40,7 +40,7 @@ export function GalleryPreview() {
             La Nostra Missione
           </h2>
           <p className="text-base md:text-lg lg:text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed mb-6 md:mb-8 px-4">
-            C.A.S.A nasce con l'obiettivo di dare un'offerta residenziale di tipo sociale stimolando la socializzazione, il mantenimento delle risorse per prevenire isolamento e depressione. Uguaglianza e rispetto sono alla base dei nostri principi: l'erogazione del servizio è ispirata ad un'eguale considerazione per ogni singola persona, che troverà uno spazio a propria dimensione. Non siamo una casa di riposo tradizionale: siamo una comunità dove ogni giorno si costruiscono relazioni autentiche, si condividono momenti di gioia e si offre supporto reciproco.
+            C.A.S.A nasce con l&apos;obiettivo di dare un&apos;offerta residenziale di tipo sociale stimolando la socializzazione, il mantenimento delle risorse per prevenire isolamento e depressione. Uguaglianza e rispetto sono alla base dei nostri principi: l&apos;erogazione del servizio è ispirata ad un&apos;eguale considerazione per ogni singola persona, che troverà uno spazio a propria dimensione. Non siamo una casa di riposo tradizionale: siamo una comunità dove ogni giorno si costruiscono relazioni autentiche, si condividono momenti di gioia e si offre supporto reciproco.
           </p>
           <Link
             href="/galleria"

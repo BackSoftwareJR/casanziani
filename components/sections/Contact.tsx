@@ -4,6 +4,7 @@ import { siteConfig } from '@/data/content';
 import { useInView } from 'react-intersection-observer';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const phoneClean = siteConfig.contact.phone.replace(/\s/g, '');
 const whatsappNumber = siteConfig.contact.whatsapp.replace(/[^0-9]/g, '');
@@ -87,6 +88,16 @@ export function Contact() {
                   <p className="text-gray-700 text-sm sm:text-base">
                     {siteConfig.address.full}
                   </p>
+                  <Link
+                    href="/dove-siamo"
+                    className="inline-flex items-center gap-1.5 mt-2 text-primary-600 hover:text-primary-700 font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded"
+                    aria-label="Vedi l’indirizzo sulla mappa"
+                  >
+                    <span>Vedi sulla mappa</span>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </Link>
                 </div>
               </li>
 

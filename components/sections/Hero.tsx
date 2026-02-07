@@ -79,16 +79,16 @@ export function Hero() {
 
   return (
     <section className="relative h-screen flex items-center justify-center overflow-hidden">
-      {/* Background: carosello automatico di immagini */}
-      <div className="absolute inset-0 z-0">
-        <AnimatePresence mode="wait" initial={false}>
+      {/* Background: carosello con dissolvenza (crossfade), niente grigio tra le slide */}
+      <div className="absolute inset-0 z-0 bg-black">
+        <AnimatePresence initial={false}>
           <motion.div
             key={currentIndex}
             className="absolute inset-0"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.8, ease: 'easeInOut' }}
+            transition={{ duration: 0.6, ease: 'easeInOut' }}
           >
             <Image
               src={heroImages[currentIndex].src}

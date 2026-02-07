@@ -1,10 +1,12 @@
 import type { Metadata } from 'next';
+import Script from 'next/script';
 import { Open_Sans, Merriweather, Playfair_Display } from 'next/font/google';
 import './globals.css';
 import { AccessibilityProvider } from '@/components/providers/AccessibilityProvider';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { WhatsAppFloat } from '@/components/ui/WhatsAppFloat';
+import { TrackingProvider } from '@/components/tracking/TrackingProvider';
 
 const openSans = Open_Sans({
   subsets: ['latin'],
@@ -180,22 +182,20 @@ export default function RootLayout({
             }),
           }}
         />
-        <script
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=AW-17576720313"
-        />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'AW-17576720313');
-            `,
-          }}
-        />
       </head>
       <body className="antialiased overflow-x-hidden">
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-17576720313"
+          strategy="afterInteractive"
+        />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-17576720313');
+          `}
+        </Script>
         <AccessibilityProvider>
           <Header />
           <main id="main-content" className="min-h-screen w-full min-w-0 overflow-x-hidden">

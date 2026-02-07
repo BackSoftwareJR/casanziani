@@ -59,9 +59,9 @@ export function AnimatedStagger({
   staggerDelay = 0.1,
   as: Component = 'div',
 }: AnimatedStaggerProps) {
+  const MotionRoot = Component === 'section' ? motion.section : motion.div;
   return (
-    <motion.div
-      as={Component}
+    <MotionRoot
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: '-40px' }}
@@ -77,7 +77,7 @@ export function AnimatedStagger({
       className={className}
     >
       {children}
-    </motion.div>
+    </MotionRoot>
   );
 }
 

@@ -48,7 +48,7 @@ export function Footer() {
               </div>
             </Link>
             <p className="mt-4 text-sm text-gray-600 leading-relaxed max-w-xs">
-              Un luogo dove il piacere si vive, l'assistenza si sente, l'accoglienza sorprende.
+              Un luogo dove il piacere si vive, l&apos;assistenza si sente, l&apos;accoglienza sorprende.
             </p>
           </div>
 
