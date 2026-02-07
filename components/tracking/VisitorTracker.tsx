@@ -7,6 +7,7 @@ import {
   sendStatistics,
   sendHeartbeat,
   trackingConfig,
+  getTrackingUrl,
 } from '@/lib/tracking';
 
 const ACTIVITY_EVENTS = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'] as const;
@@ -103,8 +104,8 @@ export function VisitorTracker() {
       });
 
       if (typeof navigator !== 'undefined' && navigator.sendBeacon) {
-        navigator.sendBeacon('/api/track/visitor', new Blob([visitorPayload], { type: 'application/json' }));
-        navigator.sendBeacon('/api/track/statistics', new Blob([statsPayload], { type: 'application/json' }));
+        navigator.sendBeacon(getTrackingUrl('visitor'), new Blob([visitorPayload], { type: 'application/json' }));
+        navigator.sendBeacon(getTrackingUrl('statistics'), new Blob([statsPayload], { type: 'application/json' }));
       }
     };
 

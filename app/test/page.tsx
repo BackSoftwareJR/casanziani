@@ -7,6 +7,8 @@ import {
   sendHeartbeat,
   buildStatisticsPayload,
   trackEvent,
+  getTrackingBaseUrl,
+  getTrackingUrl,
 } from '@/lib/tracking';
 
 type LogEntry = {
@@ -116,10 +118,11 @@ export default function TestPage() {
 
   const handleSendStatistics = async () => {
     const payload = buildStatisticsPayload();
-    const url = `${typeof window !== 'undefined' ? window.location.origin : ''}/api/track/statistics`;
-    add('request', 'POST /api/track/statistics', { payload, url });
+    const path = getTrackingUrl('statistics');
+    const url = path.startsWith('http') ? path : `${typeof window !== 'undefined' ? window.location.origin : ''}${path}`;
+    add('request', 'POST statistiche', { payload, url });
     try {
-      const res = await fetch(url + `?_t=${Date.now()}`, {
+      const res = await fetch(url + (url.includes('?') ? '&' : '?') + `_t=${Date.now()}`, {
         method: 'POST',
         cache: 'no-store',
         headers: {
@@ -148,10 +151,11 @@ export default function TestPage() {
 
   const handleSendHeartbeat = async () => {
     const payload = buildStatisticsPayload();
-    const url = `${typeof window !== 'undefined' ? window.location.origin : ''}/api/track/visitor`;
-    add('request', 'POST /api/track/visitor', { payload, url });
+    const path = getTrackingUrl('visitor');
+    const url = path.startsWith('http') ? path : `${typeof window !== 'undefined' ? window.location.origin : ''}${path}`;
+    add('request', 'POST visitor/heartbeat', { payload, url });
     try {
-      const res = await fetch(url + `?_t=${Date.now()}`, {
+      const res = await fetch(url + (url.includes('?') ? '&' : '?') + `_t=${Date.now()}`, {
         method: 'POST',
         cache: 'no-store',
         headers: {
@@ -205,6 +209,27 @@ export default function TestPage() {
           <pre className="text-xs bg-gray-50 p-3 rounded overflow-x-auto">
             {Object.entries(clientInfo).map(([k, v]) => `${k}: ${v}`).join('\n') || '…'}
           </pre>
+        </section>
+
+        {/* Base URL tracking (dal bundle) */}
+        <section className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
+          <h2 className="font-semibold text-gray-800 mb-2">Invii tracking (dal bundle)</h2>
+          <p className="text-sm text-gray-700 mb-2">
+            <strong>Base URL:</strong>{' '}
+            {getTrackingBaseUrl() ? (
+              <code className="bg-green-100 text-green-800 px-1 rounded">{getTrackingBaseUrl()}</code>
+            ) : (
+              <code className="bg-amber-100 text-amber-800 px-1 rounded">(stesso dominio – /api/track/…)</code>
+            )}
+          </p>
+          {!getTrackingBaseUrl() && (
+            <p className="text-xs text-amber-700 mt-1">
+              Se non vedi richieste su api.casanziani.com, imposta <code>NEXT_PUBLIC_TRACKING_API_URL=https://api.casanziani.com</code> <strong>prima del build</strong> (Hostinger: variabili d’ambiente per il comando di build), poi rifai build e deploy.
+            </p>
+          )}
+          <p className="text-xs text-gray-600 mt-2">
+            statistics: <code className="bg-gray-100 px-1">{getTrackingUrl('statistics')}</code> · visitor: <code className="bg-gray-100 px-1">{getTrackingUrl('visitor')}</code> · event: <code className="bg-gray-100 px-1">{getTrackingUrl('event')}</code>
+          </p>
         </section>
 
         {/* Stato API /api/track/status */}

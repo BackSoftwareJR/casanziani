@@ -37,6 +37,17 @@ function api(path: string): string {
 
 const isCrossOrigin = Boolean(TRACKING_API_BASE);
 
+/** Base URL del tracking (vuoto = stesso dominio). Valido a build time (NEXT_PUBLIC_TRACKING_API_URL). */
+export function getTrackingBaseUrl(): string {
+  return TRACKING_API_BASE;
+}
+
+/** URL completo o path per l'endpoint (per fetch/sendBeacon). Usa questo per invii manuali o beforeunload. */
+export function getTrackingUrl(path: 'statistics' | 'visitor' | 'event'): string {
+  const p = path === 'statistics' ? '/statistics' : path === 'visitor' ? '/visitor' : '/event';
+  return api(p);
+}
+
 /** Attiva con ?debug=1 nell'URL per vedere i log in console */
 function isTrackingDebug(): boolean {
   if (typeof window === 'undefined') return false;
