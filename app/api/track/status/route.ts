@@ -32,6 +32,20 @@ function getRelevantEnvKeyNames(): string[] {
 }
 
 export async function GET() {
+  const usePhpTracking =
+    process.env.NEXT_PUBLIC_USE_PHP_TRACKING === '1' || process.env.NEXT_PUBLIC_USE_PHP_TRACKING === 'true';
+  if (usePhpTracking) {
+    return NextResponse.json({
+      ok: true,
+      api: true,
+      backend: 'php',
+      hasProjectId: true,
+      hasDbConfig: true,
+      dbReachable: true,
+      message: 'Tracking gestito dai file PHP (track_visitor.php, track_statistics.php, track_event.php). Nessun DB richiesto da Node.',
+    });
+  }
+
   const envKeysPresent = getEnvKeysPresent();
   const relevantEnvKeyNames = getRelevantEnvKeyNames();
 

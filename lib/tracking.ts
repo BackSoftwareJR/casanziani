@@ -1,17 +1,27 @@
 /**
- * Tracking client - invia a API Next.js (stesso repo, stesso deploy).
- * Le credenziali DB e PROJECT_ID restano solo sul server (process.env); il frontend non le vede.
- * Endpoint: /api/track/statistics, /api/track/visitor, /api/track/event.
+ * Tracking client: invia statistiche, heartbeat (utenti online) ed eventi.
+ * Due modalità (in build time):
+ * - Next.js API: /api/track/statistics, /api/track/visitor, /api/track/event (richiede DB e env su Node).
+ * - PHP: /track_statistics.php, /track_visitor.php, /track_event.php (usa il backend PHP già sul server, stesso DB).
+ * Con NEXT_PUBLIC_USE_PHP_TRACKING=1 il frontend chiama i file PHP; non servono variabili d'ambiente su Node per il tracking.
  *
- * Debug: aggiungi ?debug=1 all'URL (es. https://casanziani.com/?debug=1) e apri la Console (F12)
- * per vedere tutti i log: cosa viene inviato, risposta del server, errori.
+ * Debug: ?debug=1 nell'URL + Console (F12) per vedere invii e risposte.
  */
 
 const TRACKING_ENABLED = true;
 const HEARTBEAT_INTERVAL_MS = 30000;
 const INACTIVE_TIMEOUT_MS = 300000;
 
+const USE_PHP_TRACKING =
+  typeof process !== 'undefined' &&
+  (process.env.NEXT_PUBLIC_USE_PHP_TRACKING === '1' || process.env.NEXT_PUBLIC_USE_PHP_TRACKING === 'true');
+
 function api(path: string): string {
+  if (USE_PHP_TRACKING) {
+    if (path === '/statistics') return '/track_statistics.php';
+    if (path === '/visitor') return '/track_visitor.php';
+    if (path === '/event') return '/track_event.php';
+  }
   return `/api/track${path}`;
 }
 
