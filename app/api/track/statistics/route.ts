@@ -8,15 +8,15 @@ import { cookies } from 'next/headers';
 import { getDB, getProjectId } from '@/lib/db';
 import { detectDeviceType, detectBrowser, detectOS, isBot } from '@/lib/tracking-server';
 
-function getOrCreateSessionId(): { sessionId: string; setCookie: boolean } {
-  const cookieStore = cookies();
+async function getOrCreateSessionId(): Promise<{ sessionId: string; setCookie: boolean }> {
+  const cookieStore = await cookies();
   const existing = cookieStore.get('track_sid')?.value;
   if (existing) return { sessionId: existing, setCookie: false };
   return { sessionId: crypto.randomUUID(), setCookie: true };
 }
 
 export async function POST(request: NextRequest) {
-  const { sessionId, setCookie: needSetCookie } = getOrCreateSessionId();
+  const { sessionId, setCookie: needSetCookie } = await getOrCreateSessionId();
   let body: Record<string, unknown> = {};
   try {
     body = await request.json();

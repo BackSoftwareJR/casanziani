@@ -11,8 +11,8 @@ import { anonymizeIp } from '@/lib/tracking-server';
 const RATE_LIMIT_MS = 10_000;
 const sessionLastRequest = new Map<string, number>();
 
-function getOrCreateSessionId(request: NextRequest): { sessionId: string; setCookie: boolean } {
-  const cookieStore = cookies();
+async function getOrCreateSessionId(_request: NextRequest): Promise<{ sessionId: string; setCookie: boolean }> {
+  const cookieStore = await cookies();
   const existing = cookieStore.get('track_sid')?.value;
   if (existing) return { sessionId: existing, setCookie: false };
   const newId = crypto.randomUUID();
@@ -20,7 +20,7 @@ function getOrCreateSessionId(request: NextRequest): { sessionId: string; setCoo
 }
 
 export async function POST(request: NextRequest) {
-  const { sessionId, setCookie: needSetCookie } = getOrCreateSessionId(request);
+  const { sessionId, setCookie: needSetCookie } = await getOrCreateSessionId(request);
   const now = Date.now();
   const last = sessionLastRequest.get(sessionId);
   if (last != null && now - last < RATE_LIMIT_MS) {
