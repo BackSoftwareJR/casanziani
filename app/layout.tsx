@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import Script from 'next/script';
 import { Open_Sans, Merriweather, Playfair_Display } from 'next/font/google';
 import './globals.css';
@@ -98,15 +98,16 @@ export const metadata: Metadata = {
       'x-default': 'https://casanziani.com',
     },
   },
-  themeColor: '#D4C4A8',
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 5,
-  },
   verification: {
     google: 'google082cd4123356f4f9',
   },
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: '#D4C4A8',
 };
 
 export default function RootLayout({

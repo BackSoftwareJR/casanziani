@@ -14,10 +14,8 @@ const nextConfig = {
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
 
-  // Performance optimizations
-  experimental: {
-    optimizeCss: true,
-  },
+  // optimizeCss richiede 'critters' (può mancare in alcuni ambienti di build)
+  // experimental: { optimizeCss: true },
 
   // Headers for security and performance
   async headers() {
