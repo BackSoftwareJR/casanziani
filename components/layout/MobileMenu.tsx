@@ -1,0 +1,90 @@
+'use client';
+
+import { useEffect } from 'react';
+import { createPortal } from 'react-dom';
+import Link from 'next/link';
+
+interface MobileMenuProps {
+  isOpen: boolean;
+  onClose: () => void;
+  navigation: Array<{ name: string; href: string }>;
+}
+
+export function MobileMenu({ isOpen, onClose, navigation }: MobileMenuProps) {
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
+  if (!isOpen || typeof document === 'undefined') return null;
+
+  const menuContent = (
+    <div
+      className="lg:hidden bg-white overflow-y-auto overflow-x-hidden"
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        width: '100vw',
+        height: '100vh',
+        minWidth: '100%',
+        minHeight: '100%',
+        zIndex: 99999,
+      }}
+      aria-modal="true"
+      aria-label="Menu di navigazione"
+      role="dialog"
+    >
+      {/* Barra superiore con pulsante chiudi */}
+      <div className="sticky top-0 z-10 flex items-center justify-between px-6 py-4 bg-white border-b border-gray-200 min-h-[60px] shrink-0">
+        <span className="font-serif text-lg font-bold text-primary-600">Menu</span>
+        <button
+          type="button"
+          onClick={onClose}
+          className="p-2 -m-2 text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-full focus:outline-none focus:ring-2 focus:ring-primary-500"
+          aria-label="Chiudi menu"
+        >
+          <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      {/* Link di navigazione */}
+      <nav className="px-6 py-8">
+        <ul className="space-y-1">
+          {navigation.map((item) => (
+            <li key={item.name}>
+              <Link
+                href={item.href}
+                onClick={onClose}
+                className="block text-lg font-semibold text-gray-800 hover:text-primary-600 hover:bg-primary-50 py-4 px-4 rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-inset"
+              >
+                {item.name}
+              </Link>
+            </li>
+          ))}
+          <li className="pt-4 mt-4 border-t border-gray-200">
+            <a
+              href="tel:+393490631492"
+              onClick={onClose}
+              className="flex items-center justify-center w-full bg-primary-600 text-white px-6 py-4 rounded-xl font-semibold text-lg hover:bg-primary-700 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+            >
+              Chiama ora
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  );
+
+  return createPortal(menuContent, document.body);
+}
