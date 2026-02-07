@@ -122,9 +122,8 @@ export default function RootLayout({
   return (
     <html lang="it" className={`${openSans.variable} ${merriweather.variable} ${playfairDisplay.variable}`}>
       <head>
-        <link rel="icon" href="/icons/favicon.png" type="image/png" />
-        <link rel="icon" href="/icons/favicon.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/icons/favicon.png" />
+        <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="/images/favicon.ico" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />

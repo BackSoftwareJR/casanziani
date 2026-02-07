@@ -2,8 +2,11 @@
  * Connessione al database - SOLO lato server (API routes).
  * Legge le variabili d'ambiente; non committare mai .env su GitHub.
  * Su Hostinger imposti: DB_HOST, DB_USER, DB_PASSWORD, DB_NAME (e opzionale DB_CHARSET, PROJECT_ID).
+ * Se il processo non le riceve (es. variabili solo a build), come fallback viene letto un file .env
+ * nella root del progetto (stessa cartella di package.json) — vedi lib/loadEnvFallback.ts.
  */
 
+import './loadEnvFallback';
 import mysql from 'mysql2/promise';
 
 function getEnv(name: string): string | undefined {

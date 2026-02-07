@@ -71,3 +71,14 @@ Se tutto è configurato bene vedrai qualcosa tipo:
 - `ok: true`
 
 Se `dbReachable` è `false`, controlla host, user, password e nome database (e che l’app Node su Hostinger possa raggiungere il MySQL).
+
+---
+
+## 5. Fallback: file `.env` sul server
+
+Se su Hostinger le variabili d'ambiente **non arrivano** al processo Node (es. sono solo per il build), l'app può leggere un file **`.env`** come fallback.
+
+- **Dove metterlo:** nella **stessa cartella da cui parte l'app**. Se avvii con `npm start` dalla root del progetto (dove c'è `package.json`), metti `.env` lì. Se avvii da un'altra cartella (es. dopo un deploy in `.next/standalone`), metti `.env` in quella cartella (es. accanto a `server.js`).
+- **Contenuto:** le stesse righe del riepilogo in sezione 3 (DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT, DB_CHARSET, PROJECT_ID).
+- **Sicurezza:** non committare mai `.env` (è in `.gitignore`). Sul server crealo a mano o tramite script di deploy.
+- Il fallback viene usato **solo** se DB_HOST, DB_USER o DB_NAME non sono già in `process.env`; le variabili già impostate non vengono sovrascritte.
