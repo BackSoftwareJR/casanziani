@@ -18,22 +18,22 @@ export function Services() {
           <div className="relative w-full h-full md:hidden">
             <Image
               src="/images/IMG_4215.webp"
-              alt=""
+              alt="Ambiente C.A.S.A. - spazi accoglienti"
               fill
               className="object-cover"
               sizes="100vw"
-              priority={false}
+              loading="lazy"
               aria-hidden
             />
           </div>
           <div className="relative w-full h-full hidden md:block">
             <Image
               src="/images/gallery/camera1.jpg"
-              alt=""
+              alt="Interni della struttura C.A.S.A."
               fill
               className="object-cover"
               sizes="100vw"
-              priority={false}
+              loading="lazy"
               aria-hidden
             />
           </div>

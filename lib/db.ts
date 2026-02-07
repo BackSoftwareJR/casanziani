@@ -12,17 +12,20 @@ function getEnv(name: string): string | undefined {
 
 export function getDbConfig(): {
   host: string;
+  port: number;
   user: string;
   password: string;
   database: string;
   charset: string;
 } {
   const host = getEnv('DB_HOST') ?? 'localhost';
+  const portRaw = getEnv('DB_PORT');
+  const port = portRaw ? parseInt(portRaw, 10) : 3306;
   const user = getEnv('DB_USER') ?? '';
   const password = getEnv('DB_PASSWORD') ?? '';
   const database = getEnv('DB_NAME') ?? '';
   const charset = getEnv('DB_CHARSET') ?? 'utf8mb4';
-  return { host, user, password, database, charset };
+  return { host, port: Number.isNaN(port) ? 3306 : port, user, password, database, charset };
 }
 
 let pool: mysql.Pool | null = null;
@@ -32,6 +35,7 @@ export async function getDB(): Promise<mysql.Pool> {
   const config = getDbConfig();
   pool = mysql.createPool({
     host: config.host,
+    port: config.port,
     user: config.user,
     password: config.password,
     database: config.database,
@@ -39,6 +43,7 @@ export async function getDB(): Promise<mysql.Pool> {
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,
+    connectTimeout: 10000,
   });
   return pool;
 }

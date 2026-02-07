@@ -47,6 +47,7 @@ export function About() {
               fill
               className="object-cover opacity-[0.08]"
               sizes="100vw"
+              loading="lazy"
               aria-hidden
             />
           </div>

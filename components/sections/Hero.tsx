@@ -85,6 +85,7 @@ export function Hero() {
           <motion.div
             key={currentIndex}
             className="absolute inset-0"
+            style={{ willChange: 'opacity' }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -96,7 +97,7 @@ export function Hero() {
               fill
               className="object-cover"
               priority={currentIndex === 0}
-              unoptimized
+              fetchPriority={currentIndex === 0 ? 'high' : 'auto'}
               sizes="100vw"
             />
           </motion.div>

@@ -248,6 +248,12 @@ a:hover {
   background: rgba(255, 255, 255, 0.5);
 }
 
+/* Ottimizzazione rendering: sezioni below-the-fold */
+section:not(:first-of-type) {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 400px;
+}
+
 /* Blog article content: immagini nel testo */
 .blog-content img {
   border-radius: 1rem;

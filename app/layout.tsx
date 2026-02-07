@@ -29,7 +29,10 @@ const playfairDisplay = Playfair_Display({
   display: 'swap',
 });
 
+const BASE_URL = 'https://casanziani.com';
+
 export const metadata: Metadata = {
+  metadataBase: new URL(BASE_URL),
   title: {
     default: 'C.A.S.A. Abbiategrasso: Più che una Struttura, una Vera Famiglia',
     template: '%s | C.A.S.A. Abbiategrasso',
@@ -121,6 +124,10 @@ export default function RootLayout({
         <link rel="icon" href="/icons/favicon.png" type="image/png" />
         <link rel="icon" href="/icons/favicon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/icons/favicon.png" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="preload" href="/images/IMG_4215.webp" as="image" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -187,9 +194,9 @@ export default function RootLayout({
       <body className="antialiased overflow-x-hidden">
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=AW-17576720313"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
-        <Script id="gtag-init" strategy="afterInteractive">
+        <Script id="gtag-init" strategy="lazyOnload">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
