@@ -11,14 +11,27 @@ import {
 
 const ACTIVITY_EVENTS = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'] as const;
 
+function isDebug(): boolean {
+  if (typeof window === 'undefined') return false;
+  return window.location.search.includes('debug=1');
+}
+
 export function VisitorTracker() {
   const pathname = usePathname();
   const lastActivityRef = useRef<number>(Date.now());
   const heartbeatRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  // Invia statistiche visita
+  // Log inizializzazione (solo con ?debug=1)
+  useEffect(() => {
+    if (isDebug()) {
+      console.log('[Tracking] VisitorTracker attivo. Pagina:', pathname, '| Heartbeat ogni', trackingConfig.heartbeatIntervalMs / 1000, 's');
+    }
+  }, []);
+
+  // Invia statistiche visita (ogni cambio pagina)
   useEffect(() => {
     if (!trackingConfig.enabled) return;
+    if (isDebug()) console.log('[Tracking] Nuova pagina → invio statistiche:', pathname);
     const payload = buildStatisticsPayload();
     const t = setTimeout(() => sendStatistics(payload), 500);
     return () => clearTimeout(t);

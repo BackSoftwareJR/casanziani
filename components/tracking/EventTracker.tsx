@@ -62,16 +62,25 @@ export function EventTracker() {
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
+    const debug = window.location.search.includes('debug=1');
+
     // Esponi trackEvent globalmente per form (come sul vecchio script.js)
     (window as unknown as { trackEvent: typeof trackEvent }).trackEvent = (
       eventType: 'phone_click' | 'whatsapp_click' | 'email_click' | 'form_submit' | 'callback_request' | 'contact_form' | 'other',
       eventValue: string | null,
       _element?: unknown
     ) => {
+      if (debug) console.log('[Tracking] trackEvent chiamato (form/altro):', eventType, eventValue);
       trackEvent(eventType, eventValue);
     };
 
     attachAll();
+    if (debug) {
+      const tel = document.querySelectorAll('a[href^="tel:"]').length;
+      const wa = document.querySelectorAll('a[href*="wa.me/"], a[href*="whatsapp.com/"]').length;
+      const mail = document.querySelectorAll('a[href^="mailto:"]').length;
+      console.log('[Tracking] EventTracker attivo. Link tracciati: tel=', tel, 'whatsapp=', wa, 'email=', mail);
+    }
 
     const observer = new MutationObserver(() => {
       attachAll();
