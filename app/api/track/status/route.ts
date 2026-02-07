@@ -10,7 +10,31 @@ import { getDB, getDbConfig, getProjectId } from '@/lib/db';
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
+const ENV_KEYS = ['DB_HOST', 'DB_PORT', 'DB_NAME', 'DB_USER', 'DB_PASSWORD', 'DB_CHARSET', 'PROJECT_ID'] as const;
+
+/** Restituisce quali chiavi env sono presenti (solo nomi, nessun valore esposto) */
+function getEnvKeysPresent(): Record<string, boolean> {
+  const out: Record<string, boolean> = {};
+  for (const key of ENV_KEYS) {
+    const v = process.env[key];
+    out[key] = v !== undefined && v !== '';
+  }
+  return out;
+}
+
+/** Elenca le chiavi in process.env che assomigliano a DB_ o PROJECT (per capire prefissi/nomi usati da Hostinger) */
+function getRelevantEnvKeyNames(): string[] {
+  const lower = (s: string) => s.toLowerCase();
+  return Object.keys(process.env).filter((k) => {
+    const l = lower(k);
+    return l.includes('db_') || l.includes('database') || l.includes('project');
+  }).sort();
+}
+
 export async function GET() {
+  const envKeysPresent = getEnvKeysPresent();
+  const relevantEnvKeyNames = getRelevantEnvKeyNames();
+
   const projectId = getProjectId();
   const hasProjectId = projectId != null && projectId > 0;
   const config = getDbConfig();
@@ -35,14 +59,16 @@ export async function GET() {
   let hint: string | undefined;
   if (!ok) {
     if (!hasDbConfig || !hasProjectId) {
-      hint =
-        "Le variabili d'ambiente non arrivano all'app Node. Su Hostinger: apri la sezione Node.js (o Application Manager), seleziona la tua app, cerca 'Environment variables' / 'Variabili d'ambiente' e aggiungi DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, PROJECT_ID con i valori corretti. Salva e RIAVVIA l'applicazione Node (restart). Le variabili devono essere impostate per l'esecuzione (runtime), non solo per il build.";
+      const missing = ENV_KEYS.filter((k) => !envKeysPresent[k]);
+      hint = missing.length > 0
+        ? `Chiavi mancanti in process.env: ${missing.join(', ')}. Nomi devono essere ESATTI (es. DB_PASSWORD non DB_PASS). Se in Hostinger le vedi tutte, probabilmente le variabili sono solo per il build: devono essere impostate per il processo che esegue "npm start" (runtime). Controlla anche se le chiavi hanno prefissi (es. vedi envKeyNamesConDB).`
+        : "Le variabili ci sono ma hasDbConfig/hasProjectId sono false: controlla che i valori non siano vuoti e che PROJECT_ID sia un numero. Riavvia l'app Node dopo aver modificato.";
     } else if (dbError && (dbError.includes("'::1'") || dbError.includes('Access denied'))) {
       hint =
         "MySQL rifiuta la connessione (es. da ::1). Imposta DB_HOST=127.0.0.1 invece di localhost, poi riavvia l'app Node.";
     } else {
       hint =
-        "Controlla DB_HOST, DB_USER, DB_PASSWORD, DB_NAME (e che l'app Node possa raggiungere MySQL). Imposta DB_HOST=127.0.0.1 se usi localhost. Riavvia l'app dopo aver modificato le variabili.";
+        "Controlla DB_HOST, DB_USER, DB_PASSWORD, DB_NAME. Imposta DB_HOST=127.0.0.1 se usi localhost. Riavvia l'app dopo aver modificato le variabili.";
     }
   }
 
@@ -55,6 +81,8 @@ export async function GET() {
       dbReachable,
       dbError: dbError ?? undefined,
       hint,
+      envKeysPresent,
+      envKeyNamesConDB: relevantEnvKeyNames,
     },
     { status: ok ? 200 : 503 }
   );
