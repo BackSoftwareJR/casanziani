@@ -34,12 +34,15 @@ export async function GET() {
 
   let hint: string | undefined;
   if (!ok) {
-    if (dbError && (dbError.includes("'::1'") || dbError.includes('Access denied'))) {
+    if (!hasDbConfig || !hasProjectId) {
       hint =
-        "MySQL rifiuta la connessione (es. da ::1). Su Hostinger imposta DB_HOST=127.0.0.1 invece di localhost per usare IPv4. Poi riavvia l'app Node.";
+        "Le variabili d'ambiente non arrivano all'app Node. Su Hostinger: apri la sezione Node.js (o Application Manager), seleziona la tua app, cerca 'Environment variables' / 'Variabili d'ambiente' e aggiungi DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, PROJECT_ID con i valori corretti. Salva e RIAVVIA l'applicazione Node (restart). Le variabili devono essere impostate per l'esecuzione (runtime), non solo per il build.";
+    } else if (dbError && (dbError.includes("'::1'") || dbError.includes('Access denied'))) {
+      hint =
+        "MySQL rifiuta la connessione (es. da ::1). Imposta DB_HOST=127.0.0.1 invece di localhost, poi riavvia l'app Node.";
     } else {
       hint =
-        "Controlla le variabili d'ambiente su Hostinger (DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, PROJECT_ID) e che l'app sia in esecuzione come Node.js (non solo sito statico).";
+        "Controlla DB_HOST, DB_USER, DB_PASSWORD, DB_NAME (e che l'app Node possa raggiungere MySQL). Imposta DB_HOST=127.0.0.1 se usi localhost. Riavvia l'app dopo aver modificato le variabili.";
     }
   }
 
