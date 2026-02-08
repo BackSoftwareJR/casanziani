@@ -64,12 +64,29 @@ const nextConfig = {
           { key: 'Cache-Control', value: 'public, max-age=86400, immutable' },
         ],
       },
+      {
+        source: '/uploads/:path*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=86400' },
+        ],
+      },
     ];
   },
 
-  // Redirects
+  // Redirects: vecchi link alle pagine legali -> PDF in uploads
   async redirects() {
-    return [];
+    return [
+      {
+        source: '/privacy-policy',
+        destination: '/uploads/Informativa%20utenti%20sito%20web%20CASA%20ANZIANI.pdf',
+        permanent: true,
+      },
+      {
+        source: '/cookie-policy',
+        destination: '/uploads/Cookie%20policy%20CASA%20ANZIANI.pdf',
+        permanent: true,
+      },
+    ];
   },
 };
 

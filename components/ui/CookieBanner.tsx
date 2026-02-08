@@ -32,7 +32,9 @@ export function CookieBanner() {
             Questo sito utilizza cookie per migliorare la tua esperienza di navigazione.
             Continuando a navigare, accetti l&apos;utilizzo dei cookie.{' '}
             <a
-              href="/cookie-policy"
+              href="/uploads/Cookie%20policy%20CASA%20ANZIANI.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-primary-500 hover:text-primary-600 underline focus:outline-none focus:ring-2 focus:ring-primary-500 rounded"
             >
               Maggiori informazioni

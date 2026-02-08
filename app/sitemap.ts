@@ -31,15 +31,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
-      url: `${baseUrl}/informativa-privacy-casa-anziani.pdf`,
+      url: `${baseUrl}/uploads/Informativa%20utenti%20sito%20web%20CASA%20ANZIANI.pdf`,
       lastModified: new Date(),
       changeFrequency: 'yearly' as const,
       priority: 0.3,
     },
     {
-      url: `${baseUrl}/cookie-policy`,
+      url: `${baseUrl}/uploads/Cookie%20policy%20CASA%20ANZIANI.pdf`,
       lastModified: new Date(),
-      changeFrequency: 'yearly',
+      changeFrequency: 'yearly' as const,
       priority: 0.3,
     },
     {
