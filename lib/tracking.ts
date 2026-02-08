@@ -186,26 +186,39 @@ export function trackEvent(
   const endpoint = api('/event');
   logTracking('Evento → POST ' + endpoint, { event_type: eventType, event_value: eventValue });
 
+  // Cross-origin: fetch con keepalive è spesso più affidabile di sendBeacon per CORS/body
+  if (isCrossOrigin && typeof fetch !== 'undefined') {
+    fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+      credentials: 'omit',
+      body,
+      keepalive: true,
+    }).then((res) => {
+      if (isTrackingDebug()) {
+        if (res.ok) console.log('[Tracking] Evento ✓', eventType, res.status);
+        else res.text().then((t) => console.warn('[Tracking] Evento ERRORE', res.status, t));
+      }
+    }).catch((err) => {
+      if (isTrackingDebug()) console.error('[Tracking] Evento fetch fallita', err);
+    });
+    return;
+  }
   if (typeof navigator !== 'undefined' && navigator.sendBeacon) {
     navigator.sendBeacon(endpoint, new Blob([body], { type: 'application/json' }));
-    if (isTrackingDebug()) {
-      console.log('[Tracking] Evento inviato (sendBeacon)', eventType, eventValue);
-    }
+    if (isTrackingDebug()) console.log('[Tracking] Evento inviato (sendBeacon)', eventType, eventValue);
     return;
   }
   fetch(endpoint, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
-    credentials: isCrossOrigin ? 'omit' : 'same-origin',
+    credentials: 'same-origin',
     body,
   })
     .then((res) => {
       if (isTrackingDebug()) {
-        if (res.ok) {
-          res.json().then((j) => console.log('[Tracking] Evento ✓', res.status, j));
-        } else {
-          res.text().then((t) => console.warn('[Tracking] Evento ERRORE', res.status, t));
-        }
+        if (res.ok) res.json().then((j) => console.log('[Tracking] Evento ✓', res.status, j));
+        else res.text().then((t) => console.warn('[Tracking] Evento ERRORE', res.status, t));
       }
     })
     .catch((err) => {
