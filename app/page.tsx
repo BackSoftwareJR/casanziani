@@ -1,5 +1,4 @@
 import { Hero } from '@/components/sections/Hero';
-import { IntroBanner } from '@/components/sections/IntroBanner';
 import { About } from '@/components/sections/About';
 import { Services } from '@/components/sections/Services';
 import { DailyRoutine } from '@/components/sections/DailyRoutine';
@@ -14,7 +13,6 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <IntroBanner />
       <About />
       <Services />
       <DailyRoutine />

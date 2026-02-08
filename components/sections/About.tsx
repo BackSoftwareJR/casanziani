@@ -35,7 +35,7 @@ export function About() {
   const [refQuote, inViewQuote] = useInView({ triggerOnce: true, threshold: 0.2 });
 
   return (
-    <section id="chi-siamo" className="relative py-12 md:py-20 overflow-hidden">
+    <section id="chi-siamo" className="relative pt-6 pb-12 md:pt-8 md:pb-20 overflow-hidden">
       {/* Sfondo con immagine — coerenza visiva */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-warm-50" />

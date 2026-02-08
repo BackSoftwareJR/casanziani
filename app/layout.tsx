@@ -122,6 +122,12 @@ export default function RootLayout({
   return (
     <html lang="it" className={`${openSans.variable} ${merriweather.variable} ${playfairDisplay.variable}`}>
       <head>
+        {/* Script inline: intercetta ChunkLoadError prima del caricamento di qualsiasi chunk Next.js (produzione) */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var k='chunk-load-reload-ts';function isChunk(e,r){var m=(e||'').toLowerCase();var n=(r&&typeof r==='object'&&r.name)?String(r.name):'';return n==='ChunkLoadError'||m.indexOf('chunkloaderror')!==-1||m.indexOf('loading chunk')!==-1||m.indexOf('failed to load chunk')!==-1||m.indexOf('loading css chunk')!==-1||m.indexOf('failed to fetch dynamically imported module')!==-1||m.indexOf('importing a module script failed')!==-1;}function msg(r){if(r==null)return'';if(typeof r==='string')return r;if(typeof r==='object'&&r!==null&&'message' in r)return String(r.message);return String(r);}function reload(){try{var raw=sessionStorage.getItem(k);var last=raw?parseInt(raw,10):0;var now=Date.now();if(last&&now-last<8000)return;sessionStorage.setItem(k,String(now));location.reload();}catch(){location.reload();}}window.addEventListener('error',function(ev){if(isChunk(ev.message||'',ev.error))reload();},true);window.addEventListener('unhandledrejection',function(ev){if(isChunk(msg(ev.reason),ev.reason)){ev.preventDefault();ev.stopImmediatePropagation();reload();}},true);})();`,
+          }}
+        />
         <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
         <link rel="apple-touch-icon" href="/images/favicon.ico" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
