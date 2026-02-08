@@ -5,41 +5,52 @@ import { trackEvent } from '@/lib/tracking';
 
 type EventType = Parameters<typeof trackEvent>[0];
 
+const DELAY_OPEN_MS = 150;
+
 function handlePhoneClick(e: Event) {
   const el = e.currentTarget as HTMLAnchorElement;
   const href = el.getAttribute('href');
   if (!href || !href.startsWith('tel:')) return;
+  e.preventDefault();
   const value = href.replace(/^tel:/, '').trim();
   trackEvent('phone_click', value);
+  setTimeout(() => { window.location.href = href; }, DELAY_OPEN_MS);
 }
 
 function handleWhatsAppClick(e: Event) {
   const el = e.currentTarget as HTMLAnchorElement;
-  const href = el.getAttribute('href') ?? el.href ?? '';
+  const href = (el.getAttribute('href') ?? el.href ?? '').trim();
   if (!href.includes('wa.me/') && !href.includes('whatsapp.com/')) return;
+  e.preventDefault();
   trackEvent('whatsapp_click', href);
+  setTimeout(() => {
+    if (el.target === '_blank') window.open(href, '_blank', 'noopener,noreferrer');
+    else window.location.href = href;
+  }, DELAY_OPEN_MS);
 }
 
 function handleEmailClick(e: Event) {
   const el = e.currentTarget as HTMLAnchorElement;
   const href = el.getAttribute('href');
   if (!href || !href.startsWith('mailto:')) return;
+  e.preventDefault();
   const value = href.replace(/^mailto:/, '').trim();
   trackEvent('email_click', value);
+  setTimeout(() => { window.location.href = href; }, DELAY_OPEN_MS);
 }
 
 function attachToLink(link: HTMLAnchorElement) {
   const href = (link.getAttribute('href') ?? '').trim();
   if (href.startsWith('tel:')) {
-    link.addEventListener('click', handlePhoneClick, { passive: true });
+    link.addEventListener('click', handlePhoneClick, { passive: false });
     return;
   }
   if (href.includes('wa.me/') || href.includes('whatsapp.com/')) {
-    link.addEventListener('click', handleWhatsAppClick, { passive: true });
+    link.addEventListener('click', handleWhatsAppClick, { passive: false });
     return;
   }
   if (href.startsWith('mailto:')) {
-    link.addEventListener('click', handleEmailClick, { passive: true });
+    link.addEventListener('click', handleEmailClick, { passive: false });
   }
 }
 
