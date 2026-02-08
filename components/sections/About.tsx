@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { useInView } from 'react-intersection-observer';
 import { motion } from 'framer-motion';
+import { useAccessibility } from '@/components/providers/AccessibilityProvider';
 import { HomeIcon, ShieldIcon, SunIcon } from '@/components/ui/Icons';
 import { Carousel } from '@/components/ui/Carousel';
 
@@ -31,8 +32,11 @@ const aboutCarouselImages = [
 ];
 
 export function About() {
+  const { skipAnimations } = useAccessibility();
   const [refImg, inViewImg] = useInView({ triggerOnce: true, threshold: 0.1 });
   const [refQuote, inViewQuote] = useInView({ triggerOnce: true, threshold: 0.2 });
+  const showImg = skipAnimations || inViewImg;
+  const showQuote = skipAnimations || inViewQuote;
 
   return (
     <section id="chi-siamo" className="relative pt-6 pb-12 md:pt-8 md:pb-20 overflow-hidden">
@@ -95,9 +99,9 @@ export function About() {
               className="text-center py-6 sm:py-8 md:py-10 px-4 rounded-2xl bg-white/80 backdrop-blur-sm border border-primary-100 shadow-sm"
             >
               <motion.p
-                initial={{ opacity: 0 }}
-                animate={inViewQuote ? { opacity: 1 } : {}}
-                transition={{ duration: 0.4 }}
+                initial={skipAnimations ? { opacity: 1 } : { opacity: 0 }}
+                animate={showQuote ? { opacity: 1 } : {}}
+                transition={skipAnimations ? { duration: 0 } : { duration: 0.4 }}
                 className="font-serif italic text-lg sm:text-xl md:text-2xl text-primary-800 leading-relaxed max-w-2xl mx-auto"
               >
                 &ldquo;Un luogo dove stress e ansia non sono di casa&rdquo;
@@ -109,9 +113,9 @@ export function About() {
           <div className="space-y-8 lg:space-y-10">
             <div className="w-full max-w-md mx-auto lg:max-w-none" ref={refImg}>
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={inViewImg ? { opacity: 1 } : {}}
-                transition={{ duration: 0.4 }}
+                initial={skipAnimations ? { opacity: 1 } : { opacity: 0 }}
+                animate={showImg ? { opacity: 1 } : {}}
+                transition={skipAnimations ? { duration: 0 } : { duration: 0.4 }}
               >
                 <Carousel
                   items={aboutCarouselImages.map((img) => (

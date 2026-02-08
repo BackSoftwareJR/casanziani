@@ -211,6 +211,12 @@ export default function RootLayout({
             gtag('config', 'AW-17576720313');
           `}
         </Script>
+        {/* CookieYes cookie consent banner */}
+        <Script
+          id="cookieyes"
+          src="https://cdn-cookieyes.com/client_data/3d246e6ca00c576c7bf67deed066f75e/script.js"
+          strategy="afterInteractive"
+        />
         <TrackingProvider />
         <AccessibilityProvider>
           <Header />

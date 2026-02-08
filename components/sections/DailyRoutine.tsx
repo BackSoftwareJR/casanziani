@@ -4,6 +4,7 @@ import { dailyRoutine } from '@/data/content';
 import type { DayPeriod } from '@/data/content';
 import { useInView } from 'react-intersection-observer';
 import { motion } from 'framer-motion';
+import { useAccessibility } from '@/components/providers/AccessibilityProvider';
 import { iconMap, SunIcon, MoonIcon } from '@/components/ui/Icons';
 import Image from 'next/image';
 
@@ -53,10 +54,12 @@ function groupByPeriod(
 const TIMELINE_IMAGE = '/images/gallery/camera1.jpg';
 
 export function DailyRoutine() {
+  const { skipAnimations } = useAccessibility();
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });
+  const show = skipAnimations || inView;
 
   const grouped = groupByPeriod(dailyRoutine);
 
@@ -65,9 +68,9 @@ export function DailyRoutine() {
       <div className="container mx-auto px-4">
         <motion.div
           ref={ref}
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
+          initial={skipAnimations ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          animate={show ? { opacity: 1, y: 0 } : {}}
+          transition={skipAnimations ? { duration: 0 } : { duration: 0.6 }}
           className="text-center mb-10 md:mb-14"
         >
           <h2
@@ -126,9 +129,9 @@ export function DailyRoutine() {
                     return (
                       <motion.div
                         key={`${period}-${index}`}
-                        initial={{ opacity: 0, x: -12 }}
-                        animate={inView ? { opacity: 1, x: 0 } : {}}
-                        transition={{ duration: 0.4, delay: groupIndex * 0.1 + index * 0.08 }}
+                        initial={skipAnimations ? { opacity: 1, x: 0 } : { opacity: 0, x: -12 }}
+                        animate={show ? { opacity: 1, x: 0 } : {}}
+                        transition={skipAnimations ? { duration: 0 } : { duration: 0.4, delay: groupIndex * 0.1 + index * 0.08 }}
                         className="relative"
                       >
                         {/* Pallino sulla linea */}
@@ -181,9 +184,9 @@ export function DailyRoutine() {
                   return (
                     <motion.div
                       key={`${period}-${index}`}
-                      initial={{ opacity: 0, x: -12 }}
-                      animate={inView ? { opacity: 1, x: 0 } : {}}
-                      transition={{ duration: 0.4, delay: groupIndex * 0.1 + index * 0.08 }}
+                      initial={skipAnimations ? { opacity: 1, x: 0 } : { opacity: 0, x: -12 }}
+                      animate={show ? { opacity: 1, x: 0 } : {}}
+                      transition={skipAnimations ? { duration: 0 } : { duration: 0.4, delay: groupIndex * 0.1 + index * 0.08 }}
                       className="relative"
                     >
                       {/* Pallino sulla linea */}

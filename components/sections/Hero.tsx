@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useAccessibility } from '@/components/providers/AccessibilityProvider';
 
 const FOTO_ORIZZONTALI = [
   { src: '/images/foto_orizzontali/IMG_2382.webp', alt: 'C.A.S.A - Ambiente familiare' },
@@ -54,6 +55,7 @@ const CAROUSEL_INTERVAL_MS = 3500;
 const DESKTOP_BREAKPOINT_PX = 768;
 
 export function Hero() {
+  const { skipAnimations } = useAccessibility();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isDesktop, setIsDesktop] = useState(false);
 
@@ -122,14 +124,14 @@ export function Hero() {
 
       {/* Content — max ~80% altezza; mobile: px-6, padding-bottom sicuro per icone fisse (Settings/WhatsApp) */}
       <div className="relative z-10 text-center text-white px-6 sm:px-4 max-w-4xl mx-auto w-full flex flex-col items-center justify-center min-h-0 pt-[8vh] sm:pt-[10vh] pb-28 sm:pb-[18vh] gap-5 sm:gap-0">
-        <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight drop-shadow-md animate-fade-in">
+        <h1 className={`font-serif text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight drop-shadow-md ${skipAnimations ? '' : 'animate-fade-in'}`}>
           Più che una Struttura, una Vera Famiglia
         </h1>
-        <p className="text-base sm:text-lg md:text-xl lg:text-2xl font-normal text-gray-100 mb-8 animate-slide-up">
+        <p className={`text-base sm:text-lg md:text-xl lg:text-2xl font-normal text-gray-100 mb-8 ${skipAnimations ? '' : 'animate-slide-up'}`}>
           Residenza per Anziani Autosufficienti e Parzialmente Autosufficienti
         </p>
         {/* CTAs: respiro tra i bottoni, secondario semitrasparente per leggibilità */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center w-full sm:w-auto animate-slide-up mt-1 sm:mt-0">
+        <div className={`flex flex-col sm:flex-row gap-4 justify-center items-center w-full sm:w-auto mt-1 sm:mt-0 ${skipAnimations ? '' : 'animate-slide-up'}`}>
           <a
             href="tel:+393490631492"
             data-track="cta_click:chiama_ora_hero"
@@ -148,7 +150,7 @@ export function Hero() {
       </div>
 
       {/* Scroll Indicator — z-50 per restare sopra altri elementi */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-50 animate-bounce">
+      <div className={`absolute bottom-8 left-1/2 transform -translate-x-1/2 z-50 ${skipAnimations ? '' : 'animate-bounce'}`}>
         <svg
           className="w-6 h-6 text-white"
           fill="none"

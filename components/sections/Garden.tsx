@@ -3,7 +3,7 @@
 import { useInView } from 'react-intersection-observer';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-
+import { useAccessibility } from '@/components/providers/AccessibilityProvider';
 import { ActivityIcon } from '@/components/ui/Icons';
 
 const benefits = [
@@ -26,19 +26,21 @@ const benefits = [
 ];
 
 export function Garden() {
+  const { skipAnimations } = useAccessibility();
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });
+  const show = skipAnimations || inView;
 
   return (
     <section className="py-20 bg-white">
       <div className="container mx-auto px-4">
         <motion.div
           ref={ref}
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
+          initial={skipAnimations ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          animate={show ? { opacity: 1, y: 0 } : {}}
+          transition={skipAnimations ? { duration: 0 } : { duration: 0.6 }}
           className="text-center mb-12"
         >
           <h2 className="font-serif text-4xl font-bold text-primary-600 mb-4">
@@ -52,9 +54,9 @@ export function Garden() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-12">
           {/* Immagine */}
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            initial={skipAnimations ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+            animate={show ? { opacity: 1, x: 0 } : {}}
+            transition={skipAnimations ? { duration: 0 } : { duration: 0.6, delay: 0.2 }}
             className="relative h-[400px] rounded-lg overflow-hidden shadow-lg"
           >
             <Image
@@ -68,9 +70,9 @@ export function Garden() {
 
           {/* Benefici */}
           <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.3 }}
+            initial={skipAnimations ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
+            animate={show ? { opacity: 1, x: 0 } : {}}
+            transition={skipAnimations ? { duration: 0 } : { duration: 0.6, delay: 0.3 }}
           >
             <h3 className="font-serif text-2xl font-bold text-primary-600 mb-6">
               Come si vive ogni giorno
@@ -100,9 +102,9 @@ export function Garden() {
 
         {/* Caratteristiche */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.4 }}
+          initial={skipAnimations ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          animate={show ? { opacity: 1, y: 0 } : {}}
+          transition={skipAnimations ? { duration: 0 } : { duration: 0.6, delay: 0.4 }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
         >
           {[

@@ -4,12 +4,15 @@ import { useInView } from 'react-intersection-observer';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useAccessibility } from '@/components/providers/AccessibilityProvider';
 
 export function InvitoVisita() {
+  const { skipAnimations } = useAccessibility();
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });
+  const show = skipAnimations || inView;
 
   return (
     <section
@@ -21,9 +24,9 @@ export function InvitoVisita() {
           {/* Testo */}
           <motion.div
             ref={ref}
-            initial={{ opacity: 0, x: -20 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.5 }}
+            initial={skipAnimations ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+            animate={show ? { opacity: 1, x: 0 } : {}}
+            transition={skipAnimations ? { duration: 0 } : { duration: 0.5 }}
             className="order-2 lg:order-1 text-center lg:text-left"
           >
             <h2
@@ -57,9 +60,9 @@ export function InvitoVisita() {
 
           {/* Immagine */}
           <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.15 }}
+            initial={skipAnimations ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
+            animate={show ? { opacity: 1, x: 0 } : {}}
+            transition={skipAnimations ? { duration: 0 } : { duration: 0.5, delay: 0.15 }}
             className="relative aspect-[4/3] sm:aspect-[3/2] rounded-xl sm:rounded-2xl overflow-hidden shadow-lg order-1 lg:order-2"
           >
             <Image

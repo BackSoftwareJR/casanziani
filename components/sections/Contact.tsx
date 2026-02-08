@@ -5,15 +5,18 @@ import { useInView } from 'react-intersection-observer';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useAccessibility } from '@/components/providers/AccessibilityProvider';
 
 const phoneClean = siteConfig.contact.phone.replace(/\s/g, '');
 const whatsappNumber = siteConfig.contact.whatsapp.replace(/[^0-9]/g, '');
 
 export function Contact() {
+  const { skipAnimations } = useAccessibility();
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.05,
   });
+  const show = skipAnimations || inView;
 
   return (
     <section
@@ -24,9 +27,9 @@ export function Contact() {
       <div className="container mx-auto px-4 sm:px-6">
         <motion.header
           ref={ref}
-          initial={{ opacity: 0, y: 16 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
+          initial={skipAnimations ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+          animate={show ? { opacity: 1, y: 0 } : {}}
+          transition={skipAnimations ? { duration: 0 } : { duration: 0.5 }}
           className="text-center mb-10 sm:mb-12"
         >
           <h2
@@ -43,9 +46,9 @@ export function Contact() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 lg:items-center">
           {/* Foto: prima su desktop, in alto su mobile per impatto */}
           <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.1 }}
+            initial={skipAnimations ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
+            animate={show ? { opacity: 1, x: 0 } : {}}
+            transition={skipAnimations ? { duration: 0 } : { duration: 0.5, delay: 0.1 }}
             className="relative aspect-[4/3] sm:aspect-[3/2] lg:aspect-[4/3] rounded-xl sm:rounded-2xl overflow-hidden shadow-lg order-2 lg:order-1"
           >
             <Image
@@ -67,9 +70,9 @@ export function Contact() {
 
           {/* Info e azioni: ottimizzato per touch e accessibilità */}
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            initial={skipAnimations ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+            animate={show ? { opacity: 1, x: 0 } : {}}
+            transition={skipAnimations ? { duration: 0 } : { duration: 0.5, delay: 0.2 }}
             className="order-1 lg:order-2"
           >
             <ul className="space-y-4 sm:space-y-5 mb-6 sm:mb-8" role="list">

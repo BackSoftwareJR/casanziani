@@ -1,6 +1,8 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { createContext, useContext, useEffect, useLayoutEffect, useState, ReactNode } from 'react';
+
+const RESTORED_SCROLL_THRESHOLD_PX = 120;
 
 interface AccessibilityContextType {
   fontSize: 'small' | 'normal' | 'large' | 'xlarge' | 'xxlarge';
@@ -9,6 +11,8 @@ interface AccessibilityContextType {
   setHighContrast: (enabled: boolean) => void;
   reducedMotion: boolean;
   setReducedMotion: (enabled: boolean) => void;
+  /** True quando la pagina è stata ricaricata con scroll già avanzato: niente animazioni, tutto già visibile */
+  skipAnimations: boolean;
 }
 
 const AccessibilityContext = createContext<AccessibilityContextType | undefined>(undefined);
@@ -17,6 +21,17 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
   const [fontSize, setFontSizeState] = useState<'small' | 'normal' | 'large' | 'xlarge' | 'xxlarge'>('normal');
   const [highContrast, setHighContrastState] = useState(false);
   const [reducedMotion, setReducedMotionState] = useState(false);
+  const [restoredScroll, setRestoredScroll] = useState(false);
+
+  // Se la pagina è stata ricaricata con scroll già a metà/fondo, non animare: tutto già visibile
+  useLayoutEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (window.scrollY > RESTORED_SCROLL_THRESHOLD_PX) {
+      setRestoredScroll(true);
+    }
+  }, []);
+
+  const skipAnimations = reducedMotion || restoredScroll;
 
   // Load preferences from localStorage on mount
   useEffect(() => {
@@ -87,6 +102,7 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
         setHighContrast,
         reducedMotion,
         setReducedMotion,
+        skipAnimations,
       }}
     >
       {children}
