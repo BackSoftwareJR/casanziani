@@ -31,9 +31,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
-      url: `${baseUrl}/privacy-policy`,
+      url: `${baseUrl}/informativa-privacy-casa-anziani.pdf`,
       lastModified: new Date(),
-      changeFrequency: 'yearly',
+      changeFrequency: 'yearly' as const,
       priority: 0.3,
     },
     {

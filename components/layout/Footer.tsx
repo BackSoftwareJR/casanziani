@@ -11,7 +11,7 @@ const footerNav = {
     { name: 'Contatti', href: '/#contatti' },
   ],
   legal: [
-    { name: 'Privacy Policy', href: '/privacy-policy' },
+    { name: 'Privacy Policy', href: '/informativa-privacy-casa-anziani.pdf', pdf: true },
     { name: 'Cookie Policy', href: '/cookie-policy' },
     { name: 'Termini e Condizioni', href: '/termini-condizioni' },
   ],
@@ -92,13 +92,26 @@ export function Footer() {
             <ul className="space-y-3" role="list">
               {footerNav.legal.map((item) => (
                 <li key={item.name}>
-                  <Link
-                    href={item.href}
-                    data-track={`nav_click:footer_${item.name.toLowerCase().replace(/\s/g, '_').replace(/-/g, '_')}`}
-                    className="text-sm text-gray-700 hover:text-primary-600 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded"
-                  >
-                    {item.name}
-                  </Link>
+                  {'pdf' in item && item.pdf ? (
+                    <a
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      data-track={`nav_click:footer_${item.name.toLowerCase().replace(/\s/g, '_').replace(/-/g, '_')}`}
+                      className="text-sm text-gray-700 hover:text-primary-600 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded"
+                      aria-label={`${item.name} (si apre in nuova finestra, PDF)`}
+                    >
+                      {item.name}
+                    </a>
+                  ) : (
+                    <Link
+                      href={item.href}
+                      data-track={`nav_click:footer_${item.name.toLowerCase().replace(/\s/g, '_').replace(/-/g, '_')}`}
+                      className="text-sm text-gray-700 hover:text-primary-600 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded"
+                    >
+                      {item.name}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>
