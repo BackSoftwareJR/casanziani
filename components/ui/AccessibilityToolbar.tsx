@@ -8,7 +8,7 @@ export function AccessibilityToolbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="fixed bottom-4 left-4 z-50">
+    <div className="fixed bottom-20 left-4 z-50">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="bg-primary-500 text-white p-3 rounded-full shadow-lg hover:bg-primary-600 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"

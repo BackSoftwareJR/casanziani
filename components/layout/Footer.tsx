@@ -13,7 +13,6 @@ const footerNav = {
   legal: [
     { name: 'Privacy Policy', href: '/uploads/Informativa%20utenti%20sito%20web%20CASA%20ANZIANI.pdf', pdf: true },
     { name: 'Cookie Policy', href: '/uploads/Cookie%20policy%20CASA%20ANZIANI.pdf', pdf: true },
-    { name: 'Termini e Condizioni', href: '/termini-condizioni' },
   ],
 };
 
