@@ -8,12 +8,12 @@ import { HomeIcon, ShieldIcon, SunIcon } from '@/components/ui/Icons';
 import { Carousel } from '@/components/ui/Carousel';
 
 const introCards = [
-  { icon: HomeIcon, title: 'Vera Famiglia', subtitle: "Massimo 6 ospiti per un'attenzione totale." },
+  { icon: HomeIcon, title: 'Vera Famiglia', subtitle: "Massimo 5 ospiti per un'attenzione totale." },
   { icon: ShieldIcon, title: 'Sicurezza 24h', subtitle: 'Assistenza discreta ma sempre presente.' },
   { icon: SunIcon, title: 'Autonomia', subtitle: 'Libertà di vivere i propri spazi.' },
 ];
 
-const featureBullets = ['Max 6 Ospiti', 'Design Elegante e Sicuro', 'Camere Singole o Doppie'];
+const featureBullets = ['Max 5 Ospiti', 'Design Elegante e Sicuro', 'Camere Singole o Doppie'];
 
 /* Nuove foto per varietà e caricamento veloce all'inizio */
 const aboutCarouselImages = [

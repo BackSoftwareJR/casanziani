@@ -328,7 +328,7 @@ Non è solo una questione di "fare due chiacchiere". La socializzazione attiva p
 
 ## Il "Modello dei 5": La Forza del Piccolo Gruppo
 
-A differenza delle grandi residenze dove l'individuo rischia di diventare un numero, la scelta di C.A.S.A. di ospitare un gruppo ristretto di massimo 6 persone garantisce un'atmosfera unica:
+A differenza delle grandi residenze dove l'individuo rischia di diventare un numero, la scelta di C.A.S.A. di ospitare un gruppo ristretto di massimo 5 persone garantisce un'atmosfera unica:
 
 ### Relazioni Profonde
 - In un gruppo piccolo non si creano "folle", ma legami di fratellanza. Si mangia alla stessa tavola, proprio come in una famiglia vera.
@@ -404,7 +404,7 @@ Molte famiglie temono le grandi strutture ospedaliere. È qui che il modello C.A
 - Non ci sono corridoi infiniti, ma un salotto, una cucina e spazi caldi.
 
 ### Socialità Reale
-- In un gruppo di soli 6 ospiti, l'integrazione è immediata. Nessuno viene "dimenticato" in un angolo.
+- In un gruppo di soli 5 ospiti, l'integrazione è immediata. Nessuno viene "dimenticato" in un angolo.
 
 ### Vita all'Aperto
 - Non avere un giardino privato non ci ferma. Crediamo nel valore terapeutico dell'uscita quotidiana: respirare l'aria della città e del parco locale mantiene il legame con il mondo reale, evitando l'effetto "bolla" delle strutture chiuse.

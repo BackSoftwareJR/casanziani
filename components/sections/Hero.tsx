@@ -24,9 +24,9 @@ const CASA_IMAGES = [
   { src: '/images/foto_orizzontali/IMG_2388.webp', alt: 'C.A.S.A - Cura e attenzione' },
   { src: '/images/foto_orizzontali/IMG_2389.webp', alt: 'C.A.S.A - Ambiente familiare e cura' },
   { src: '/images/foto_orizzontali/IMG_2390.webp', alt: 'Residenza per anziani - Spazi accoglienti' },
-  { src: '/images/IMG_4208.webp', alt: 'Struttura C.A.S.A - Famiglia' },
+  { src: '/images/foto_orizzontali/IMG_2393.webp', alt: 'Struttura C.A.S.A - Famiglia' },
   { src: '/images/foto_orizzontali/IMG_2391.webp', alt: 'Residenza C.A.S.A' },
-  { src: '/images/IMG_4203.webp', alt: 'C.A.S.A - Qualità di vita' },
+  { src: '/images/foto_orizzontali/IMG_2387.webp', alt: 'C.A.S.A - Qualità di vita' },
   { src: '/images/foto_orizzontali/IMG_2392.webp', alt: 'C.A.S.A - Casa per anziani' },
 ];
 
@@ -45,9 +45,9 @@ const HERO_IMAGES_MOBILE = [
   { src: '/images/foto_orizzontali/IMG_2388.webp', alt: 'C.A.S.A - Cura e attenzione' },
   { src: '/images/foto_orizzontali/IMG_2389.webp', alt: 'C.A.S.A - Ambiente familiare e cura' },
   { src: '/images/foto_orizzontali/IMG_2390.webp', alt: 'Residenza per anziani - Spazi accoglienti' },
-  { src: '/images/IMG_4208.webp', alt: 'Struttura C.A.S.A - Famiglia' },
+  { src: '/images/foto_orizzontali/IMG_2393.webp', alt: 'Struttura C.A.S.A - Famiglia' },
   { src: '/images/foto_orizzontali/IMG_2391.webp', alt: 'Residenza C.A.S.A' },
-  { src: '/images/IMG_4203.webp', alt: 'C.A.S.A - Qualità di vita' },
+  { src: '/images/foto_orizzontali/IMG_2387.webp', alt: 'C.A.S.A - Qualità di vita' },
   { src: '/images/foto_orizzontali/IMG_2392.webp', alt: 'C.A.S.A - Casa per anziani' },
 ];
 
