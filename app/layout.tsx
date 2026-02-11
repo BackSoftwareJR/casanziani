@@ -133,7 +133,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-        <link rel="preload" href="/images/IMG_4215.webp" as="image" />
+        <link rel="preload" href="/images/foto_orizzontali/IMG_2388.webp" as="image" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

@@ -21,13 +21,13 @@ const FOTO_ORIZZONTALI = [
 ];
 
 const CASA_IMAGES = [
-  { src: '/images/IMG_4215.webp', alt: 'C.A.S.A - Cura e attenzione' },
-  { src: '/images/IMG_4218.webp', alt: 'C.A.S.A - Ambiente familiare e cura' },
-  { src: '/images/IMG_4217.webp', alt: 'Residenza per anziani - Spazi accoglienti' },
+  { src: '/images/foto_orizzontali/IMG_2388.webp', alt: 'C.A.S.A - Cura e attenzione' },
+  { src: '/images/foto_orizzontali/IMG_2389.webp', alt: 'C.A.S.A - Ambiente familiare e cura' },
+  { src: '/images/foto_orizzontali/IMG_2390.webp', alt: 'Residenza per anziani - Spazi accoglienti' },
   { src: '/images/IMG_4208.webp', alt: 'Struttura C.A.S.A - Famiglia' },
-  { src: '/images/IMG_4206.webp', alt: 'Residenza C.A.S.A' },
+  { src: '/images/foto_orizzontali/IMG_2391.webp', alt: 'Residenza C.A.S.A' },
   { src: '/images/IMG_4203.webp', alt: 'C.A.S.A - Qualità di vita' },
-  { src: '/images/IMG_4201.webp', alt: 'C.A.S.A - Casa per anziani' },
+  { src: '/images/foto_orizzontali/IMG_2392.webp', alt: 'C.A.S.A - Casa per anziani' },
 ];
 
 // Desktop: alterna foto orizzontali e immagini della casa
@@ -42,13 +42,13 @@ const HERO_IMAGES_DESKTOP = (() => {
 })();
 
 const HERO_IMAGES_MOBILE = [
-  { src: '/images/IMG_4215.webp', alt: 'C.A.S.A - Cura e attenzione' },
-  { src: '/images/IMG_4218.webp', alt: 'C.A.S.A - Ambiente familiare e cura' },
-  { src: '/images/IMG_4217.webp', alt: 'Residenza per anziani - Spazi accoglienti' },
+  { src: '/images/foto_orizzontali/IMG_2388.webp', alt: 'C.A.S.A - Cura e attenzione' },
+  { src: '/images/foto_orizzontali/IMG_2389.webp', alt: 'C.A.S.A - Ambiente familiare e cura' },
+  { src: '/images/foto_orizzontali/IMG_2390.webp', alt: 'Residenza per anziani - Spazi accoglienti' },
   { src: '/images/IMG_4208.webp', alt: 'Struttura C.A.S.A - Famiglia' },
-  { src: '/images/IMG_4206.webp', alt: 'Residenza C.A.S.A' },
+  { src: '/images/foto_orizzontali/IMG_2391.webp', alt: 'Residenza C.A.S.A' },
   { src: '/images/IMG_4203.webp', alt: 'C.A.S.A - Qualità di vita' },
-  { src: '/images/IMG_4201.webp', alt: 'C.A.S.A - Casa per anziani' },
+  { src: '/images/foto_orizzontali/IMG_2392.webp', alt: 'C.A.S.A - Casa per anziani' },
 ];
 
 const CAROUSEL_INTERVAL_MS = 3500;

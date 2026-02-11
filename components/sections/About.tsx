@@ -17,13 +17,13 @@ const featureBullets = ['Max 6 Ospiti', 'Design Elegante e Sicuro', 'Camere Sing
 
 /* Nuove foto per varietà e caricamento veloce all'inizio */
 const aboutCarouselImages = [
-  { src: '/images/IMG_4201.webp', alt: 'C.A.S.A - Cura e attenzione in ambiente familiare' },
+  { src: '/images/foto_orizzontali/IMG_2392.webp', alt: 'C.A.S.A - Cura e attenzione in ambiente familiare' },
   { src: '/images/IMG_4203.webp', alt: 'Momenti condivisi e supporto a C.A.S.A' },
-  { src: '/images/IMG_4206.webp', alt: 'Attività e compagnia - comunità viva' },
+  { src: '/images/foto_orizzontali/IMG_2391.webp', alt: 'Attività e compagnia - comunità viva' },
   { src: '/images/IMG_4208.webp', alt: 'Progetto individualizzato e assistenza a C.A.S.A' },
-  { src: '/images/IMG_4215.webp', alt: 'Giornate condivise in un ambiente accogliente' },
-  { src: '/images/IMG_4217.webp', alt: 'Sorrisi e supporto reciproco a C.A.S.A' },
-  { src: '/images/IMG_4218.webp', alt: 'Cura e relazione in un luogo che è casa' },
+  { src: '/images/foto_orizzontali/IMG_2388.webp', alt: 'Giornate condivise in un ambiente accogliente' },
+  { src: '/images/foto_orizzontali/IMG_2390.webp', alt: 'Sorrisi e supporto reciproco a C.A.S.A' },
+  { src: '/images/foto_orizzontali/IMG_2389.webp', alt: 'Cura e relazione in un luogo che è casa' },
   { src: '/images/converted/camera1.jpg', alt: 'Sala comune C.A.S.A - ambiente familiare' },
   { src: '/images/converted/camera2.jpg', alt: 'Interno della struttura C.A.S.A' },
   { src: '/images/converted/bath.jpg', alt: 'Dettaglio ambienti C.A.S.A' },

@@ -323,12 +323,12 @@ export const galleryImages = [
   { id: 16, src: '/images/foto_orizzontali/IMG_2393.webp', alt: 'C.A.S.A. - Spazi condivisi', category: 'spazi-comuni' },
   // Immagini aggiuntive
   { id: 17, src: '/images/IMG_4208.webp', alt: 'Struttura C.A.S.A. - Famiglia', category: 'spazi-comuni' },
-  { id: 18, src: '/images/IMG_4217.webp', alt: 'Residenza anziani - Spazi accoglienti', category: 'spazi-comuni' },
-  { id: 19, src: '/images/IMG_4218.webp', alt: 'C.A.S.A. - Ambiente familiare e cura', category: 'spazi-comuni' },
-  { id: 20, src: '/images/IMG_4215.webp', alt: 'C.A.S.A. - Cura e attenzione', category: 'dettagli' },
-  { id: 21, src: '/images/IMG_4206.webp', alt: 'Residenza C.A.S.A. Abbiategrasso', category: 'esterni' },
+  { id: 18, src: '/images/foto_orizzontali/IMG_2390.webp', alt: 'Residenza anziani - Spazi accoglienti', category: 'spazi-comuni' },
+  { id: 19, src: '/images/foto_orizzontali/IMG_2389.webp', alt: 'C.A.S.A. - Ambiente familiare e cura', category: 'spazi-comuni' },
+  { id: 20, src: '/images/foto_orizzontali/IMG_2388.webp', alt: 'C.A.S.A. - Cura e attenzione', category: 'dettagli' },
+  { id: 21, src: '/images/foto_orizzontali/IMG_2391.webp', alt: 'Residenza C.A.S.A. Abbiategrasso', category: 'esterni' },
   { id: 22, src: '/images/IMG_4203.webp', alt: 'C.A.S.A. - Qualità di vita', category: 'spazi-comuni' },
-  { id: 23, src: '/images/IMG_4201.webp', alt: 'Casa per anziani C.A.S.A.', category: 'esterni' },
+  { id: 23, src: '/images/foto_orizzontali/IMG_2392.webp', alt: 'Casa per anziani C.A.S.A.', category: 'esterni' },
 ].map((img) => {
   const captions = galleryCaptionsByCategory[img.category];
   return {

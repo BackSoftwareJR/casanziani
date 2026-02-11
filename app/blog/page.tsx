@@ -19,7 +19,7 @@ import { DocumentTextIcon } from '@/components/ui/Icons';
 const BLOG_HERO_EXTRA_IMAGES = [
   { src: '/images/foto_orizzontali/IMG_2382.webp', alt: 'C.A.S.A. - Ambiente familiare e qualità di vita' },
   { src: '/images/IMG_4208.webp', alt: 'C.A.S.A. - Residenza per anziani Abbiategrasso' },
-  { src: '/images/IMG_4217.webp', alt: 'C.A.S.A. - Struttura accogliente' },
+  { src: '/images/foto_orizzontali/IMG_2390.webp', alt: 'C.A.S.A. - Struttura accogliente' },
 ];
 
 export const metadata: Metadata = {

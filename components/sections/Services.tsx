@@ -17,7 +17,7 @@ export function Services() {
         <div className="absolute inset-0">
           <div className="relative w-full h-full md:hidden">
             <Image
-              src="/images/IMG_4215.webp"
+              src="/images/foto_orizzontali/IMG_2388.webp"
               alt="Ambiente C.A.S.A. - spazi accoglienti"
               fill
               className="object-cover"
