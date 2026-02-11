@@ -52,9 +52,9 @@ export const services = [
   },
   {
     id: 4,
-    title: 'Assistenza sanitaria e gestione delle terapie',
-    description: 'Garantiamo assistenza medica e infermieristica, collaboriamo con il medico curante e controlliamo la corretta auto somministrazione delle terapie farmacologiche per assicurarci il vostro benessere.',
-    icon: 'heartbeat',
+    title: 'Routine e ritmi della giornata',
+    description: 'Colazione, pasti, attività e momenti di riposo rispettano i tempi di ciascuno. La giornata ha una struttura chiara e rassicurante, con spazi per le attività comuni e per la tranquillità personale, nel rispetto delle abitudini di ogni ospite.',
+    icon: 'clock',
   },
   {
     id: 5,

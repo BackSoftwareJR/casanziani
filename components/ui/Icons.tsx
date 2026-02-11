@@ -365,13 +365,33 @@ export function DocumentTextIcon({ className = '', size = 24 }: IconProps) {
   );
 }
 
+export function ClockIcon({ className = '', size = 24 }: IconProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden
+    >
+      <circle cx="12" cy="12" r="10" />
+      <polyline points="12 6 12 12 16 14" />
+    </svg>
+  );
+}
+
 // Icon mapper per i servizi
 export const iconMap: Record<string, React.ComponentType<IconProps>> = {
   home: HomeIcon,
   shield: ShieldIcon,
   concierge: ConciergeIcon,
   broom: BroomIcon,
-  heartbeat: HeartbeatIcon,
+  clock: ClockIcon,
   palette: PaletteIcon,
   seedling: SeedlingIcon,
   sun: SunIcon,
