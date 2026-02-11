@@ -59,7 +59,7 @@ export const services = [
   {
     id: 5,
     title: 'Attività giornaliere e animazione su misura',
-    description: 'Organizziamo a rotazione laboratori di yoga-ginnastica dolce, cucina, lettura e musicoterapia per provarne i benefici e stimolare socializzazione e divertimento',
+    description: 'Organizziamo a rotazione laboratori di yoga-ginnastica dolce, cucina, lettura e musicoterapia per provarne i benefici e stimolare socializzazione e divertimento. Un\'animatrice è presente.',
     icon: 'palette',
   },
   {
@@ -104,7 +104,7 @@ export const dailyRoutine = [
   {
     time: '15:00 - 16:30',
     title: 'Attività Pomeridiane',
-    description: 'Giochi di società, attività ricreative, musica, o un momento di tranquillità in compagnia',
+    description: 'Giochi di società, attività ricreative, musica, o un momento di tranquillità in compagnia. Un\'animatrice è presente.',
     icon: 'game',
     period: 'pomeriggio' as DayPeriod,
   },
