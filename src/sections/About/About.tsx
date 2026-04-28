@@ -17,13 +17,6 @@ export const About: React.FC = () => {
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
           </div>
-          <div className={styles.badge}>
-            <div className={styles.badgeIcon}>C.A.S.A</div>
-            <div>
-              <span className={styles.badgeTitle}>Amore Familiare</span>
-              <span className={styles.badgeText}>Dignità e Rispetto</span>
-            </div>
-          </div>
         </SoftParallax>
 
         <motion.div
