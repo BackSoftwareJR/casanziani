@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { TextReveal, SoftParallax } from '../../components/Motion';
 import { slideInRight, viewportOnce, appleEase } from '../../styles/motion-variants';
 import styles from './About.module.css';
+import aboutImage from '../../assets/images/soggiorno-1.webp';
 
 export const About: React.FC = () => {
   return (
@@ -11,7 +12,7 @@ export const About: React.FC = () => {
         <SoftParallax className={styles.imageWrapper} offset={30}>
           <div className={styles.imagePlaceholder}>
             <img 
-              src="/src/assets/images/soggiorno-1.webp" 
+              src={aboutImage}
               alt="Il nostro ambiente" 
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
