@@ -15,9 +15,6 @@ import { VerticalGallery } from './sections/VerticalGallery/VerticalGallery';
 import { Contact } from './sections/Contact/Contact';
 import { Fab } from './components/Fab/Fab';
 import { Footer } from './components/Footer/Footer';
-import { PrivacyPolicy } from './pages/Legal/PrivacyPolicy';
-import { CookiePolicy } from './pages/Legal/CookiePolicy';
-import { TermsAndConditions } from './pages/Legal/TermsAndConditions';
 
 const Home = () => (
   <>
@@ -44,9 +41,6 @@ function App() {
       <main className="main-content">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-          <Route path="/cookie-policy" element={<CookiePolicy />} />
-          <Route path="/termini-condizioni" element={<TermsAndConditions />} />
         </Routes>
       </main>
       <Fab />

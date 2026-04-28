@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { MapPin, Phone, Mail, MessageCircle } from 'lucide-react';
 import styles from './Footer.module.css';
 
@@ -45,9 +44,12 @@ export const Footer: React.FC = () => {
           <div className={styles.linksCol}>
             <h3>Legale</h3>
             <nav className={styles.nav}>
-              <Link to="/privacy-policy">Privacy Policy</Link>
-              <Link to="/cookie-policy">Cookie Policy</Link>
-              <Link to="/termini-condizioni">Termini e Condizioni</Link>
+              <a href="/Informativa%20utenti%20sito%20web%20CASA%20ANZIANI.pdf" target="_blank" rel="noopener noreferrer">
+                Privacy Policy
+              </a>
+              <a href="/Cookie%20policy%20CASA%20ANZIANI.pdf" target="_blank" rel="noopener noreferrer">
+                Cookie Policy
+              </a>
             </nav>
           </div>
 

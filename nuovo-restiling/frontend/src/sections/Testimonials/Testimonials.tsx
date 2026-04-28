@@ -3,14 +3,26 @@ import useEmblaCarousel from 'embla-carousel-react';
 import { motion } from 'framer-motion';
 import { Button } from '../../components/Button/Button';
 import { TextReveal, MagneticButton } from '../../components/Motion';
-import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { viewportOnce, appleEase } from '../../styles/motion-variants';
 import styles from './Testimonials.module.css';
 
 const reviews = [
-  { text: "Il senso di colpa iniziale è sparito dopo tre giorni. Sapere mia madre seguita giorno e notte in un ambiente così raffinato, senza mai essere trattata come un semplice numero, ha restituito il sonno a tutta la famiglia. Ora mangia volentieri ed è tornata a fare lunghe passeggiate.", author: "Roberto", role: "Figlio" },
-  { text: "L'idea della classica casa di riposo ci spaventava molto. Qui mio padre ha trovato conversazioni stimolanti e menu preparati ascoltando le sue richieste. L'atmosfera è identica a quella del suo vecchio salotto signorile.", author: "Giulia", role: "Figlia" },
-  { text: "Il numero ridotto di persone fa l'intera differenza. C'è silenzio totale quando serve riposare, e compagnia discreta quando lo si desidera. Hanno un'attenzione meticolosa che protegge costantemente la privacy di mio suocero.", author: "Anna", role: "Nuora" }
+  {
+    text: "All'inizio ero molto in ansia: temevo che mamma si sentisse abbandonata. La prima settimana non e stata perfetta, ma il personale ci ha aggiornati ogni giorno e ha ascoltato davvero le sue abitudini. Dopo poco l'ho vista piu tranquilla, mangia con regolarita e partecipa volentieri alle attivita.",
+    author: 'Paola',
+    role: 'Figlia di ospite',
+  },
+  {
+    text: "Mio padre e una persona riservata e il cambiamento e stato delicato. Qui non forzano nulla: lo aiutano quando serve e gli lasciano i suoi tempi. In due mesi e diventato piu sereno, dorme meglio e noi familiari sentiamo di avere un riferimento affidabile.",
+    author: 'Marco',
+    role: 'Figlio di ospite',
+  },
+  {
+    text: "Quando andiamo a trovarla la troviamo curata e coinvolta nella vita della casa, ma senza caos. Ci piace che ci sia dialogo anche sulle piccole cose: terapie, pasti, giornate no. Non ci vendono una favola, ci danno una mano concreta ogni giorno.",
+    author: 'Elena',
+    role: 'Nipote di ospite',
+  },
 ];
 
 export const Testimonials: React.FC = () => {
@@ -65,11 +77,6 @@ export const Testimonials: React.FC = () => {
               {reviews.map((review, index) => (
                 <div className={styles.embla__slide} key={index}>
                   <div className={styles.card}>
-                    <div className={styles.stars}>
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} fill="var(--color-secondary)" color="var(--color-secondary)" size={20} />
-                      ))}
-                    </div>
                     <p className={styles.quote}>"{review.text}"</p>
                     <div className={styles.author}>
                       <strong>{review.author}</strong>

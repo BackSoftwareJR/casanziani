@@ -71,12 +71,6 @@
   }
 }
 
-.stars {
-  display: flex;
-  gap: 3px;
-  margin-bottom: var(--spacing-3);
-}
-
 .quote {
   font-size: 0.9375rem;
   font-style: italic;
