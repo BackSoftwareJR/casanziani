@@ -1,177 +1,73 @@
-# C.A.S.A. - Nuovo Sito Web
+# React + TypeScript + Vite
 
-Sito web moderno e performante per C.A.S.A. (Comunità Alloggio Sociale per Anziani) realizzato con Next.js 14, React, TypeScript e Tailwind CSS.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## 🚀 Caratteristiche Principali
+Currently, two official plugins are available:
 
-### Performance
-- **Next.js 14** con App Router per SSR/SSG
-- **Image Optimization** automatica con Next.js Image
-- **Code Splitting** automatico
-- **Lazy Loading** componenti e immagini
-- **Font Optimization** con next/font
-- **Compressione** automatica
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-### Accessibilità
-- **Ingrandimento testo** (5 livelli: small, normal, large, xlarge, xxlarge)
-- **Alto contrasto** opzionale
-- **Riduzione animazioni** per utenti sensibili
-- **Navigazione da tastiera** completa
-- **ARIA labels** e semantic HTML
-- **Skip to main content** link
-- **Focus visible** su tutti gli elementi interattivi
+## React Compiler
 
-### SEO Avanzato
-- **Meta tags** ottimizzati
-- **Schema.org** markup (LocalBusiness, FAQPage)
-- **Open Graph** e Twitter Cards
-- **Sitemap dinamico**
-- **Robots.txt** configurabile
-- **Canonical URLs**
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-### Design
-- **Design system** completo con palette colori
-- **Responsive** mobile-first
-- **Animazioni** fluide con Framer Motion
-- **Tipografia** ottimizzata (Open Sans + Merriweather)
-- **Componenti riutilizzabili**
+## Expanding the ESLint configuration
 
-### Funzionalità
-- **Blog system** completo
-- **Galleria foto** ottimizzata
-- **Form di contatto** con validazione
-- **FAQ** interattive
-- **Testimonianze**
-- **Timeline giornata tipo**
-- **Sezione parco/giardino**
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-## 📦 Installazione
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
-```bash
-# Installa le dipendenze
-npm install
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
 
-# Avvia il server di sviluppo
-npm run dev
-
-# Build per produzione
-npm run build
-
-# Avvia il server di produzione
-npm start
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
 
-## 🏗️ Struttura del Progetto
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
+
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
-nuovo sito/
-├── app/                    # Next.js App Router
-│   ├── layout.tsx         # Layout principale
-│   ├── page.tsx           # Homepage
-│   ├── globals.css        # Stili globali
-│   ├── blog/              # Pagine blog
-│   └── galleria/          # Pagina galleria
-├── components/            # Componenti React
-│   ├── layout/           # Header, Footer, Navigation
-│   ├── sections/         # Sezioni homepage
-│   ├── ui/               # Componenti UI riutilizzabili
-│   └── providers/        # Context providers
-├── data/                 # Dati e contenuti
-├── public/              # File statici
-│   ├── images/          # Immagini
-│   ├── videos/          # Video
-│   └── icons/           # Icone
-└── types/               # TypeScript types
-```
-
-## 🎨 Design System
-
-### Colori
-- **Primary**: Beige/Marrone (#C3B091, #8A795D)
-- **Secondary**: Tonalità calde
-- **Accent**: Beige chiaro (#F5F5DC)
-
-### Tipografia
-- **Sans**: Open Sans (testo)
-- **Serif**: Merriweather (titoli)
-
-### Spacing
-- Sistema di spacing coerente basato su rem
-
-## 📱 Responsive Breakpoints
-
-- **Mobile**: < 768px
-- **Tablet**: 768px - 1024px
-- **Desktop**: > 1024px
-
-## ♿ Accessibilità
-
-Il sito è completamente accessibile con:
-- Supporto screen reader
-- Navigazione da tastiera
-- Controllo dimensione testo
-- Alto contrasto opzionale
-- Riduzione animazioni
-
-## 🔧 Configurazione
-
-### Variabili d'ambiente
-
-Crea un file `.env.local`:
-
-```env
-NEXT_PUBLIC_SITE_URL=https://casanziani.com
-NEXT_PUBLIC_GA_ID=AW-17576720313
-```
-
-### Personalizzazione
-
-Modifica i contenuti in `data/content.ts` per personalizzare:
-- Informazioni struttura
-- Servizi
-- FAQ
-- Testimonianze
-- Timeline giornata
-
-## 📈 Performance
-
-Il sito è ottimizzato per:
-- **Lighthouse Score**: 90+ su tutte le metriche
-- **First Contentful Paint**: < 1.5s
-- **Time to Interactive**: < 3s
-- **Cumulative Layout Shift**: < 0.1
-
-## 🚀 Deploy
-
-### Vercel (Consigliato)
-
-```bash
-npm install -g vercel
-vercel
-```
-
-### Altri provider
-
-```bash
-npm run build
-# I file sono in .next/
-```
-
-## 📝 TODO
-
-- [ ] Implementare sistema blog completo
-- [ ] Aggiungere CMS headless (opzionale)
-- [ ] Integrare tracking eventi
-- [ ] Aggiungere form callback
-- [ ] Ottimizzare immagini esistenti
-- [ ] Aggiungere più testimonianze
-- [ ] Implementare prenotazione visite online
-
-## 📄 Licenza
-
-Proprietario: C.A.S.A - Comunità Alloggio Sociale per Anziani
-
-## 👨‍💻 Sviluppato da
-
-Backsoftware
-# casanziani
