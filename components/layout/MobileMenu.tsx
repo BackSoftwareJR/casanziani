@@ -26,7 +26,7 @@ export function MobileMenu({ isOpen, onClose, navigation }: MobileMenuProps) {
 
   const menuContent = (
     <div
-      className="lg:hidden bg-white overflow-y-auto overflow-x-hidden"
+      className="lg:hidden bg-premium-surface overflow-y-auto overflow-x-hidden"
       style={{
         position: 'fixed',
         top: 0,
@@ -44,12 +44,12 @@ export function MobileMenu({ isOpen, onClose, navigation }: MobileMenuProps) {
       role="dialog"
     >
       {/* Barra superiore con pulsante chiudi */}
-      <div className="sticky top-0 z-10 flex items-center justify-between px-6 py-4 bg-white border-b border-gray-200 min-h-[60px] shrink-0">
-        <span className="font-serif text-lg font-bold text-primary-600">Menu</span>
+      <div className="sticky top-0 z-10 flex items-center justify-between px-6 py-4 bg-premium-surface border-b border-primary-200 min-h-[60px] shrink-0">
+        <span className="font-display text-lg font-bold text-premium-ink">Menu</span>
         <button
           type="button"
           onClick={onClose}
-          className="p-2 -m-2 text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-full focus:outline-none focus:ring-2 focus:ring-primary-500"
+          className="p-2 -m-2 text-premium-inkSoft hover:text-primary-600 hover:bg-primary-50 rounded-full focus:outline-none focus:ring-2 focus:ring-primary-500"
           aria-label="Chiudi menu"
         >
           <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -67,7 +67,7 @@ export function MobileMenu({ isOpen, onClose, navigation }: MobileMenuProps) {
                 href={item.href}
                 data-track={`nav_click:menu_${item.name.toLowerCase().replace(/\s/g, '_')}`}
                 onClick={onClose}
-                className="block text-lg font-semibold text-gray-800 hover:text-primary-600 hover:bg-primary-50 py-4 px-4 rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-inset"
+                className="block text-lg font-semibold text-premium-ink hover:text-primary-700 hover:bg-primary-50 py-4 px-4 rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-inset"
               >
                 {item.name}
               </Link>
@@ -78,7 +78,7 @@ export function MobileMenu({ isOpen, onClose, navigation }: MobileMenuProps) {
               href="tel:+393490631492"
               data-track="cta_click:chiama_ora_menu_mobile"
               onClick={onClose}
-              className="flex items-center justify-center w-full bg-primary-600 text-white px-6 py-4 rounded-xl font-semibold text-lg hover:bg-primary-700 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+              className="flex items-center justify-center w-full bg-premium-sage text-white px-6 py-4 rounded-xl font-semibold text-lg hover:bg-[color:var(--color-sage-dark)] transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
             >
               Chiama ora
             </a>

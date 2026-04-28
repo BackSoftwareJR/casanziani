@@ -1,0 +1,67 @@
+.faq {
+  padding: var(--spacing-8) 0;
+  background-color: var(--color-background);
+}
+
+@media (min-width: 768px) {
+  .faq {
+    padding: var(--spacing-15) 0;
+  }
+}
+
+.header {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto var(--spacing-6);
+}
+
+@media (min-width: 768px) {
+  .header {
+    margin: 0 auto var(--spacing-10);
+  }
+}
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .grid {
+    gap: var(--spacing-6);
+  }
+}
+
+.card {
+  background-color: var(--color-surface);
+  padding: var(--spacing-4);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(62, 44, 32, 0.05);
+}
+
+@media (min-width: 768px) {
+  .card {
+    padding: var(--spacing-6);
+    border-radius: var(--radius-xl);
+  }
+}
+
+.card h3 {
+  font-size: 1.0625rem;
+  color: var(--color-text-heading);
+  margin-bottom: var(--spacing-2);
+}
+
+@media (min-width: 768px) {
+  .card h3 {
+    font-size: var(--text-xl);
+    margin-bottom: var(--spacing-3);
+  }
+}
+
+.card p {
+  color: var(--color-text-main);
+}

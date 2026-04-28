@@ -21,7 +21,7 @@ export function Contact() {
   return (
     <section
       id="contatti"
-      className="py-12 sm:py-16 lg:py-20 bg-background"
+      className="section-shell-alt"
       aria-labelledby="contact-heading"
     >
       <div className="container mx-auto px-4 sm:px-6">
@@ -34,11 +34,11 @@ export function Contact() {
         >
           <h2
             id="contact-heading"
-            className="font-serif text-3xl sm:text-4xl font-bold text-primary-600 mb-3 sm:mb-4"
+            className="section-title text-3xl sm:text-4xl mb-3 sm:mb-4"
           >
             Contattaci
           </h2>
-          <p className="text-base sm:text-lg text-gray-700 max-w-2xl mx-auto leading-relaxed">
+          <p className="section-subtitle text-base sm:text-lg max-w-2xl mx-auto">
             Passa a trovarci per una visita guidata o contattaci. Siamo qui per rispondere a tutte le tue domande.
           </p>
         </motion.header>
@@ -176,7 +176,7 @@ export function Contact() {
               <a
                 href={`tel:${phoneClean}`}
                 data-track="cta_click:chiama_ora_contact"
-                className="min-h-[48px] sm:min-h-[52px] flex items-center justify-center bg-primary-600 text-white px-6 py-4 rounded-xl font-semibold text-base sm:text-lg hover:bg-primary-700 active:bg-primary-800 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 shadow-md hover:shadow-lg"
+                className="min-h-[48px] sm:min-h-[52px] wl-btn-primary text-base sm:text-lg rounded-xl"
                 aria-label="Chiama ora il numero di C.A.S.A"
               >
                 Chiama ora
@@ -186,7 +186,7 @@ export function Contact() {
                 data-track="cta_click:whatsapp_contact"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="min-h-[48px] sm:min-h-[52px] flex items-center justify-center bg-[#25D366] text-white px-6 py-4 rounded-xl font-semibold text-base sm:text-lg hover:bg-[#1ebf5a] active:bg-[#1aac52] transition-colors focus:outline-none focus:ring-2 focus:ring-[#25D366] focus:ring-offset-2 shadow-md hover:shadow-lg"
+                className="min-h-[48px] sm:min-h-[52px] flex items-center justify-center bg-[#25D366] text-white px-6 py-4 rounded-xl font-semibold text-base sm:text-lg hover:bg-[#1ebf5a] active:bg-[#1aac52] transition-colors focus:outline-none focus:ring-2 focus:ring-[#25D366] focus:ring-offset-2 shadow-md hover:shadow-lg border border-white/30"
                 aria-label="Scrivici su WhatsApp (si apre in nuova finestra)"
               >
                 WhatsApp

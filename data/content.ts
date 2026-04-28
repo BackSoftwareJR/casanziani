@@ -2,8 +2,8 @@
 
 export const siteConfig = {
   name: 'C.A.S.A',
-  fullName: 'C.A.S.A - Comunità Alloggio Sociale per Anziani',
-  tagline: 'Più che una struttura, una vera famiglia',
+  fullName: 'C.A.S.A di Salute a domicilio',
+  tagline: 'La serenita di casa, con l assistenza che merita',
   targetAudience: 'Residenza per anziani autosufficienti e parzialmente autosufficienti',
   address: {
     street: 'Via Alessandro Volta 19/E',
@@ -34,39 +34,33 @@ export const siteConfig = {
 export const services = [
   {
     id: 1,
-    title: 'Assistenza 24h e presenza costante',
-    description: 'Lo staff qualificato è presente giorno e notte per garantire sicurezza e tranquillità, supportando gli ospiti autosufficienti e parzialmente autosufficienti nelle loro attività quotidiane',
+    title: 'Assistenza quotidiana',
+    description: 'Il nostro staff e presente giorno e notte. Supportiamo gli ospiti nelle attivita di tutti i giorni: igiene personale, vestizione, mobilita. Tutto con discrezione, rispettando i tempi di ognuno.',
     icon: 'shield',
   },
   {
     id: 2,
     title: 'Vitto completo e cucina curata',
-    description: 'Colazione, Spuntino mattutino, Pranzo, Merenda e Cena, vengono preparate da noi con menù a disposizione di ospiti e famiglie',
+    description: 'Cinque pasti al giorno, colazione, spuntino, pranzo, merenda e cena, preparati in casa con ingredienti freschi. Il menu e disponibile per ospiti e famiglie.',
     icon: 'concierge',
   },
   {
     id: 3,
-    title: 'Ambienti puliti e ordinati ogni giorno',
-    description: 'Ci prendiamo cura della pulizia degli ambienti giornaliera e il cambio biancheria, aiutiamo nell\'igiene personale cura del bagno e aiuto nella vestizione. Servizio di lavanderia, stireria e guardaroba.',
+    title: 'Pulizia e cura degli spazi',
+    description: 'Gli ambienti vengono puliti ogni giorno. Ci occupiamo del cambio biancheria, del servizio lavanderia e stireria. La casa e ordinata perche e la loro casa.',
     icon: 'broom',
   },
   {
     id: 4,
-    title: 'Routine e ritmi della giornata',
-    description: 'Colazione, pasti, attività e momenti di riposo rispettano i tempi di ciascuno. La giornata ha una struttura chiara e rassicurante, con spazi per le attività comuni e per la tranquillità personale, nel rispetto delle abitudini di ogni ospite.',
+    title: 'Attivita e animazione',
+    description: 'Yoga dolce, laboratori di cucina, lettura, musicoterapia e giochi di societa. Un animatrice e presente con regolarita. Le attivita non sono obbligatorie: chi vuole partecipa, chi vuole riposare, riposa.',
     icon: 'clock',
   },
   {
     id: 5,
-    title: 'Attività giornaliere e animazione su misura',
-    description: 'Organizziamo a rotazione laboratori di yoga-ginnastica dolce, cucina, lettura e musicoterapia per provarne i benefici e stimolare socializzazione e divertimento. Un\'animatrice è presente.',
+    title: 'Spazi verdi e vita all aperto',
+    description: 'La struttura e circondata dal verde. Passeggiate, momenti all aperto, aria fresca ogni giorno. Non un cortile di servizio: un giardino vero.',
     icon: 'palette',
-  },
-  {
-    id: 6,
-    title: 'Spazi verdi a due passi da casa',
-    description: 'La casa è immersa nel verde: i paesaggi naturali che la circondano invitano a passeggiate rilassanti, chiacchiere all\'aperto e momenti di serenità sotto il cielo. Un ambiente tranquillo, ideale per godersi la natura ogni giorno.',
-    icon: 'seedling',
   },
 ];
 

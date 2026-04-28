@@ -34,7 +34,7 @@ export function BlogPostHero({ post }: BlogPostHeroProps) {
           sizes="100vw"
         />
       </motion.div>
-      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 to-transparent" />
       <motion.div
         className="absolute bottom-0 left-0 right-0 w-full mx-auto px-4 sm:px-6 lg:px-8 pb-6 sm:pb-8"
         initial={{ opacity: 0, y: 24 }}
@@ -43,10 +43,10 @@ export function BlogPostHero({ post }: BlogPostHeroProps) {
       >
         <div className="max-w-4xl mx-auto">
           <div className="w-12 h-1 bg-brand-gold rounded-full mb-4" aria-hidden />
-          <div className="inline-block bg-primary-500 text-white px-4 py-2 rounded-full text-sm font-semibold mb-4">
+          <div className="inline-block bg-premium-sage text-white px-4 py-2 rounded-full text-sm font-semibold mb-4">
             {categoryName}
           </div>
-          <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
+          <h1 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
             {post.title}
           </h1>
           <div className="flex flex-wrap items-center gap-4 text-white/90 text-sm">

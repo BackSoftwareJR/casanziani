@@ -94,7 +94,7 @@ export default async function BlogPage(props: BlogPageProps) {
   };
 
   return (
-    <div className="min-h-screen bg-background pt-24">
+    <div className="min-h-screen bg-primary-50 pt-24">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(blogJsonLd) }}
@@ -105,7 +105,7 @@ export default async function BlogPage(props: BlogPageProps) {
         <div className="container mx-auto px-4 sm:px-6 pt-4 pb-8">
           <BlogHeroCarousel slides={heroSlides} />
         </div>
-        <div className="relative bg-white border-b border-gray-200 py-10 sm:py-12">
+        <div className="relative bg-white border-b border-primary-200 py-10 sm:py-12">
           <BackgroundPattern variant="waves" opacity={0.06} className="text-primary-500" />
           <div className="container mx-auto px-4 sm:px-6 relative">
             <div className="max-w-3xl mx-auto text-center">
@@ -117,11 +117,11 @@ export default async function BlogPage(props: BlogPageProps) {
               </div>
               <h1
                 id="blog-heading"
-                className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-primary-800 mb-4"
+                className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-premium-ink mb-4"
               >
                 Il Nostro Blog
               </h1>
-              <p className="text-lg sm:text-xl text-gray-600 leading-relaxed">
+              <p className="section-subtitle text-lg sm:text-xl">
                 Consigli, informazioni e storie per migliorare la qualità della vita degli anziani e supportare le famiglie
               </p>
             </div>
@@ -143,7 +143,7 @@ export default async function BlogPage(props: BlogPageProps) {
       )}
 
       {/* Esplora per Categoria */}
-      <AnimatedSection delay={0.15} className="relative py-12 bg-white">
+      <AnimatedSection delay={0.15} className="relative py-12 bg-premium-surface">
         <BackgroundPattern variant="grid" opacity={0.06} className="text-primary-400" />
         <div className="container mx-auto px-4 sm:px-6 relative">
           <h2 className="font-serif text-3xl font-bold text-primary-700 mb-8 text-center">

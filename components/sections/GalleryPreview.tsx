@@ -30,7 +30,7 @@ export function GalleryPreview() {
   ));
 
   return (
-    <section className="py-12 md:py-20 bg-white">
+    <section className="section-shell-alt">
       <div className="container mx-auto px-4">
         <motion.div
           ref={ref}
@@ -39,15 +39,15 @@ export function GalleryPreview() {
           transition={skipAnimations ? { duration: 0 } : { duration: 0.6 }}
           className="text-center mb-8 md:mb-12"
         >
-          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-primary-600 mb-4 md:mb-6">
-            La Nostra Missione
+          <h2 className="section-title mb-4 md:mb-6">
+            I Nostri Spazi
           </h2>
-          <p className="text-base md:text-lg lg:text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed mb-6 md:mb-8 px-4">
+          <p className="section-subtitle max-w-3xl mx-auto mb-6 md:mb-8 px-4">
             C.A.S.A nasce con l&apos;obiettivo di dare un&apos;offerta residenziale di tipo sociale stimolando la socializzazione, il mantenimento delle risorse per prevenire isolamento e depressione. Uguaglianza e rispetto sono alla base dei nostri principi: l&apos;erogazione del servizio è ispirata ad un&apos;eguale considerazione per ogni singola persona, che troverà uno spazio a propria dimensione. Non siamo una casa di riposo tradizionale: siamo una comunità dove ogni giorno si costruiscono relazioni autentiche, si condividono momenti di gioia e si offre supporto reciproco.
           </p>
           <Link
             href="/galleria"
-            className="inline-block bg-primary-600 text-white px-6 md:px-8 py-3 md:py-4 rounded-full font-semibold hover:bg-primary-700 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-600 shadow-lg hover:shadow-xl text-sm md:text-base"
+            className="wl-btn-primary text-sm md:text-base"
           >
             Esplora la Galleria Completa
           </Link>

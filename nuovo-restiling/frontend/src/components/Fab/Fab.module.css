@@ -1,0 +1,38 @@
+.fab {
+  width: 64px;
+  height: 64px;
+  background-color: var(--color-primary);
+  color: var(--color-primary-text);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 12px 24px rgba(201, 90, 43, 0.4);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.wrapper {
+  position: fixed;
+  bottom: var(--spacing-4);
+  right: var(--spacing-4);
+  z-index: 100;
+  pointer-events: none;
+}
+
+.wrapper > * {
+  pointer-events: auto;
+}
+
+@media (max-width: 480px) {
+  .wrapper {
+    bottom: var(--spacing-2);
+    right: var(--spacing-2);
+  }
+}
+
+@media (min-width: 1024px) {
+  .wrapper {
+    display: none; /* Hide on desktop */
+  }
+}

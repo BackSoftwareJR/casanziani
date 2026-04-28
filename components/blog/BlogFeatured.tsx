@@ -40,7 +40,7 @@ export function BlogFeatured({ articles }: BlogFeaturedProps) {
       >
       <Link
         href={`/blog/${mainArticle.slug}`}
-        className="block bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border border-primary-100 group"
+        className="block wl-card overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group"
       >
         <div className="relative h-64 md:h-80 overflow-hidden">
           <Image
@@ -50,7 +50,7 @@ export function BlogFeatured({ articles }: BlogFeaturedProps) {
             className="object-cover group-hover:scale-110 transition-transform duration-300"
             sizes="(max-width: 1024px) 100vw, 66vw"
           />
-          <div className="absolute top-4 left-4 bg-primary-600 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
+          <div className="absolute top-4 left-4 bg-premium-sage text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
             In Evidenza
           </div>
         </div>
@@ -63,10 +63,10 @@ export function BlogFeatured({ articles }: BlogFeaturedProps) {
               {format(new Date(mainArticle.date), 'd MMM yyyy', { locale: it })}
             </span>
           </div>
-          <h3 className="font-serif text-2xl font-bold text-primary-600 mb-3 group-hover:text-primary-700 transition-colors">
+          <h3 className="font-display text-2xl font-bold text-premium-ink mb-3 group-hover:text-primary-700 transition-colors">
             {mainArticle.title}
           </h3>
-          <p className="text-gray-600 mb-4 line-clamp-2">
+          <p className="text-premium-inkSoft mb-4 line-clamp-2">
             {mainArticle.excerpt}
           </p>
           <div className="flex items-center justify-between text-sm">
@@ -93,7 +93,7 @@ export function BlogFeatured({ articles }: BlogFeaturedProps) {
           >
           <Link
             href={`/blog/${article.slug}`}
-            className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 border border-primary-100 group block"
+            className="wl-card overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 group block"
           >
             <div className="relative h-32 overflow-hidden">
               <Image
@@ -110,10 +110,10 @@ export function BlogFeatured({ articles }: BlogFeaturedProps) {
                   {getCategoryNameById(article.category) ?? article.category}
                 </span>
               </div>
-              <h4 className="font-serif text-lg font-bold text-primary-600 mb-2 group-hover:text-primary-700 transition-colors line-clamp-2">
+              <h4 className="font-display text-lg font-bold text-premium-ink mb-2 group-hover:text-primary-700 transition-colors line-clamp-2">
                 {article.title}
               </h4>
-              <p className="text-gray-600 text-xs mb-2 line-clamp-2">
+              <p className="text-premium-inkSoft text-xs mb-2 line-clamp-2">
                 {article.excerpt}
               </p>
               <span className="text-primary-500 text-xs font-semibold group-hover:underline inline-flex items-center gap-1">

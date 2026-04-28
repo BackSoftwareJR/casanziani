@@ -1,57 +1,46 @@
 'use client';
 
-import { dailyRoutine } from '@/data/content';
-import type { DayPeriod } from '@/data/content';
 import { useInView } from 'react-intersection-observer';
 import { motion } from 'framer-motion';
 import { useAccessibility } from '@/components/providers/AccessibilityProvider';
-import { iconMap, SunIcon, MoonIcon } from '@/components/ui/Icons';
 import Image from 'next/image';
+import { SunIcon, CoffeeIcon, ActivityIcon, UtensilsIcon, GameIcon, DinnerIcon, MoonIcon } from '@/components/ui/Icons';
 
-const PERIOD_CONFIG: Record<
-  DayPeriod,
-  { label: string; accent: string; dotBg: string; dotBorder: string; timeColor: string; SectionIcon: React.ComponentType<{ className?: string; size?: number }> }
-> = {
-  mattina: {
-    label: 'Mattina',
-    accent: 'amber',
-    dotBg: 'bg-amber-100',
-    dotBorder: 'border-amber-300',
-    timeColor: 'text-amber-600',
-    SectionIcon: SunIcon,
+const dayMoments = [
+  {
+    id: 'mattina',
+    title: 'Mattina',
+    icon: SunIcon,
+    summary: 'Risveglio e cura della persona con i propri ritmi. Nessuna fretta, nessun orario rigido.',
+    items: [
+      { icon: CoffeeIcon, text: 'Risveglio e igiene personale, con assistenza discreta' },
+      { icon: ActivityIcon, text: 'Colazione in compagnia, con prodotti freschi' },
+      { icon: ActivityIcon, text: 'Ginnastica dolce, giornale, laboratori o passeggiata in giardino' },
+    ],
   },
-  pomeriggio: {
-    label: 'Pomeriggio',
-    accent: 'orange',
-    dotBg: 'bg-orange-100',
-    dotBorder: 'border-orange-300',
-    timeColor: 'text-orange-600',
-    SectionIcon: SunIcon,
+  {
+    id: 'pomeriggio',
+    title: 'Pomeriggio',
+    icon: UtensilsIcon,
+    summary: 'A tavola insieme e poi liberta di scegliere tra attivita, conversazioni o un momento di quiete.',
+    items: [
+      { icon: UtensilsIcon, text: 'Pranzo preparato al momento con ingredienti di stagione' },
+      { icon: GameIcon, text: 'Giochi, musica, conversazioni o relax sul divano' },
+      { icon: CoffeeIcon, text: 'Merenda con te, caffe e qualcosa di dolce' },
+    ],
   },
-  sera: {
-    label: 'Sera',
-    accent: 'indigo',
-    dotBg: 'bg-indigo-100',
-    dotBorder: 'border-indigo-300',
-    timeColor: 'text-indigo-600',
-    SectionIcon: MoonIcon,
+  {
+    id: 'sera',
+    title: 'Sera',
+    icon: MoonIcon,
+    summary: 'La sera e serena: cena leggera, compagnia e supporto presente ma mai invadente.',
+    items: [
+      { icon: DinnerIcon, text: 'Cena leggera e nutriente, in compagnia' },
+      { icon: MoonIcon, text: 'Assistenza per la preparazione alla notte' },
+      { icon: ActivityIcon, text: 'Presenza continua dello staff durante tutta la notte' },
+    ],
   },
-};
-
-function groupByPeriod(
-  items: typeof dailyRoutine
-): Array<{ period: DayPeriod; events: typeof dailyRoutine }> {
-  const order: DayPeriod[] = ['mattina', 'pomeriggio', 'sera'];
-  const groups = new Map<DayPeriod, typeof dailyRoutine>();
-  for (const p of order) groups.set(p, []);
-  for (const item of items) {
-    const period = item.period ?? 'mattina';
-    groups.get(period)!.push(item);
-  }
-  return order.map((period) => ({ period, events: groups.get(period)! })).filter((g) => g.events.length > 0);
-}
-
-const TIMELINE_IMAGE = '/images/gallery/camera1.jpg';
+];
 
 export function DailyRoutine() {
   const { skipAnimations } = useAccessibility();
@@ -61,10 +50,8 @@ export function DailyRoutine() {
   });
   const show = skipAnimations || inView;
 
-  const grouped = groupByPeriod(dailyRoutine);
-
   return (
-    <section className="py-12 md:py-20 bg-orange-50/30" aria-labelledby="daily-routine-heading">
+    <section className="section-shell" aria-labelledby="daily-routine-heading">
       <div className="container mx-auto px-4">
         <motion.div
           ref={ref}
@@ -75,143 +62,87 @@ export function DailyRoutine() {
         >
           <h2
             id="daily-routine-heading"
-            className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-primary-600 mb-3 md:mb-4"
+            className="section-title mb-3 md:mb-4"
           >
             Una Giornata da Noi
           </h2>
-          <p className="text-base md:text-lg lg:text-xl text-gray-700 max-w-2xl mx-auto px-4">
-            Ogni momento si adatta alla tua routine: niente orari rigidi o fissi, ma il ritmo giusto per te.
+          <p className="section-subtitle max-w-3xl mx-auto px-4">
+            Com e una giornata a C.A.S.A.? Nessun orario rigido.
+            La giornata si adatta alla persona, non il contrario.
           </p>
         </motion.div>
 
-        {/* Desktop: Sticky Split View */}
-        <div className="hidden lg:grid lg:grid-cols-2 lg:gap-12 lg:items-start">
-          {/* Colonna sinistra: immagine sticky */}
-          <div className="sticky top-24">
-            <div className="relative aspect-[3/4] max-h-[600px] rounded-2xl overflow-hidden shadow-lg">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-8 items-start">
+          <motion.div
+            initial={skipAnimations ? { opacity: 1, x: 0 } : { opacity: 0, x: -18 }}
+            animate={show ? { opacity: 1, x: 0 } : {}}
+            transition={skipAnimations ? { duration: 0 } : { duration: 0.5, delay: 0.1 }}
+            className="lg:col-span-2"
+          >
+            <div className="wl-card p-3">
+              <div className="relative aspect-[4/5] rounded-xl overflow-hidden">
               <Image
-                src={TIMELINE_IMAGE}
-                alt="Ambiente accogliente C.A.S.A - una giornata con noi"
+                src="/images/foto_orizzontali/IMG_2392.webp"
+                alt="Momenti quotidiani in ambiente familiare C.A.S.A"
                 fill
                 className="object-cover"
                 sizes="(min-width: 1024px) 50vw, 100vw"
-                priority={false}
               />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                <p className="absolute left-4 right-4 bottom-4 text-white font-medium text-base sm:text-lg">
+                  Ritmi sereni, cura quotidiana, presenza costante.
+                </p>
+              </div>
             </div>
-          </div>
+          </motion.div>
 
-          {/* Colonna destra: Timeline */}
-          <div className="relative pl-8 border-l-2 border-orange-200 space-y-12">
-            {grouped.map(({ period, events }, groupIndex) => {
-              const config = PERIOD_CONFIG[period];
-              const SectionIcon = config.SectionIcon;
+          <motion.div
+            initial={skipAnimations ? { opacity: 1, x: 0 } : { opacity: 0, x: 18 }}
+            animate={show ? { opacity: 1, x: 0 } : {}}
+            transition={skipAnimations ? { duration: 0 } : { duration: 0.5, delay: 0.15 }}
+            className="lg:col-span-3 grid grid-cols-1 gap-4"
+          >
+            {dayMoments.map((moment, index) => {
+              const SectionIcon = moment.icon;
               return (
-                <div key={period} className="space-y-8">
-                  {/* Separatore di sezione: icona + titolo */}
-                  <div className="flex items-center gap-3 -ml-8">
-                    <div
-                      className={`flex-shrink-0 w-12 h-12 rounded-full ${config.dotBg} border-2 ${config.dotBorder} flex items-center justify-center`}
-                    >
-                      <SectionIcon
-                        className={config.timeColor}
-                        size={24}
-                      />
-                    </div>
-                    <span
-                      className={`font-display text-xl font-semibold ${config.timeColor} tracking-wide`}
-                    >
-                      {config.label}
+                <motion.article
+                  key={moment.id}
+                  initial={skipAnimations ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
+                  animate={show ? { opacity: 1, y: 0 } : {}}
+                  transition={skipAnimations ? { duration: 0 } : { duration: 0.45, delay: 0.22 + index * 0.08 }}
+                  className="wl-card p-5 md:p-6"
+                >
+                  <div className="flex items-start gap-4">
+                    <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-primary-100 text-primary-700">
+                      <SectionIcon size={22} />
                     </span>
+                    <div className="flex-1">
+                      <h3 className="font-display text-2xl text-premium-ink mb-1">{moment.title}</h3>
+                      <p className="text-premium-inkSoft mb-4 leading-relaxed">{moment.summary}</p>
+                      <ul className="space-y-2">
+                        {moment.items.map((item) => {
+                          const ItemIcon = item.icon;
+                          return (
+                            <li key={item.text} className="flex items-center gap-2.5 text-premium-inkSoft">
+                              <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-primary-50 border border-primary-200 text-primary-700">
+                                <ItemIcon size={14} />
+                              </span>
+                              <span className="text-sm sm:text-base">{item.text}</span>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
                   </div>
-
-                  {events.map((item, index) => {
-                    const IconComponent = iconMap[item.icon];
-                    return (
-                      <motion.div
-                        key={`${period}-${index}`}
-                        initial={skipAnimations ? { opacity: 1, x: 0 } : { opacity: 0, x: -12 }}
-                        animate={show ? { opacity: 1, x: 0 } : {}}
-                        transition={skipAnimations ? { duration: 0 } : { duration: 0.4, delay: groupIndex * 0.1 + index * 0.08 }}
-                        className="relative"
-                      >
-                        {/* Pallino sulla linea */}
-                        <div
-                          className={`absolute left-0 -translate-x-1/2 w-10 h-10 rounded-full ${config.dotBg} border-2 ${config.dotBorder} flex items-center justify-center`}
-                        >
-                          {IconComponent ? (
-                            <IconComponent className={config.timeColor} size={20} />
-                          ) : null}
-                        </div>
-
-                        <div className="pl-12 md:pl-14">
-                          <h3 className="font-display text-xl md:text-2xl text-gray-800">
-                            {item.title}
-                          </h3>
-                          <p className="text-gray-600 mt-2 leading-relaxed text-base">
-                            {item.description}
-                          </p>
-                        </div>
-                      </motion.div>
-                    );
-                  })}
-                </div>
+                </motion.article>
               );
             })}
-          </div>
-        </div>
-
-        {/* Mobile: The Elegant Timeline */}
-        <div className="lg:hidden relative pl-8 border-l-2 border-orange-200 space-y-10">
-          {grouped.map(({ period, events }, groupIndex) => {
-            const config = PERIOD_CONFIG[period];
-            const SectionIcon = config.SectionIcon;
-            return (
-              <div key={period} className="space-y-8">
-                {/* Separatore: icona grande + titolo sezione */}
-                <div className="flex items-center gap-3 -ml-8">
-                  <div
-                    className={`flex-shrink-0 w-11 h-11 rounded-full ${config.dotBg} border-2 ${config.dotBorder} flex items-center justify-center`}
-                  >
-                    <SectionIcon className={config.timeColor} size={22} />
-                  </div>
-                  <span className={`font-display text-lg font-semibold ${config.timeColor} tracking-wide`}>
-                    {config.label}
-                  </span>
-                </div>
-
-                {events.map((item, index) => {
-                  const IconComponent = iconMap[item.icon];
-                  return (
-                    <motion.div
-                      key={`${period}-${index}`}
-                      initial={skipAnimations ? { opacity: 1, x: 0 } : { opacity: 0, x: -12 }}
-                      animate={show ? { opacity: 1, x: 0 } : {}}
-                      transition={skipAnimations ? { duration: 0 } : { duration: 0.4, delay: groupIndex * 0.1 + index * 0.08 }}
-                      className="relative"
-                    >
-                      {/* Pallino sulla linea */}
-                      <div
-                        className={`absolute left-0 -translate-x-1/2 w-9 h-9 rounded-full ${config.dotBg} border-2 ${config.dotBorder} flex items-center justify-center`}
-                      >
-                        {IconComponent ? (
-                          <IconComponent className={config.timeColor} size={18} />
-                        ) : null}
-                      </div>
-
-                      <div className="pl-11">
-                        <h3 className="font-display text-xl text-gray-800">
-                          {item.title}
-                        </h3>
-                        <p className="text-gray-600 mt-2 leading-relaxed text-sm">
-                          {item.description}
-                        </p>
-                      </div>
-                    </motion.div>
-                  );
-                })}
-              </div>
-            );
-          })}
+            <div className="pt-2">
+              <a href="/#contatti" className="wl-btn-primary">
+                Prenota una visita gratuita
+              </a>
+            </div>
+          </motion.div>
         </div>
       </div>
     </section>

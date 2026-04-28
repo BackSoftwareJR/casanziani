@@ -108,7 +108,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   };
 
   return (
-    <article className="min-h-screen bg-background pt-24">
+    <article className="min-h-screen bg-primary-50 pt-24">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
@@ -151,24 +151,24 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             </div>
 
             {/* CTA finale */}
-            <div className="mt-12 bg-primary-50 p-8 rounded-2xl text-center shadow-sm border border-gray-100">
+            <div className="mt-12 bg-white p-8 rounded-2xl text-center shadow-sm border border-primary-200">
               <div className="w-12 h-1 bg-brand-gold rounded-full mx-auto mb-4" aria-hidden />
-              <h3 className="font-serif text-2xl font-bold text-primary-600 mb-4">
+              <h3 className="font-display text-2xl font-bold text-premium-ink mb-4">
                 Vuoi Saperne di Più?
               </h3>
-              <p className="text-gray-700 mb-6">
+              <p className="text-premium-inkSoft mb-6">
                 Contattaci per una visita o per qualsiasi domanda. Saremo felici di rispondere.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <a
                   href="/#contatti"
-                  className="bg-primary-500 text-white px-8 py-3 rounded-full font-semibold hover:bg-primary-600 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  className="wl-btn-primary"
                 >
                   Contattaci
                 </a>
                 <a
                   href="/blog"
-                  className="border-2 border-primary-500 text-primary-500 px-8 py-3 rounded-full font-semibold hover:bg-primary-50 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  className="wl-btn-secondary"
                 >
                   Altri Articoli
                 </a>

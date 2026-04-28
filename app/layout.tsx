@@ -35,8 +35,8 @@ const BASE_URL = 'https://casanziani.com';
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: {
-    default: 'C.A.S.A. Abbiategrasso: Più che una Struttura, una Vera Famiglia',
-    template: '%s | C.A.S.A. Abbiategrasso',
+    default: 'C.A.S.A di Salute a domicilio',
+    template: '%s | C.A.S.A di Salute a domicilio',
   },
   description: 'Più che una struttura, una vera famiglia. A C.A.S.A. (Abbiategrasso) offriamo amore, gioia di vivere e assistenza 24h. I tuoi cari al sicuro. Alternativa calda alle case di riposo: niente atmosfera ospedaliera, ma una vera comunità dove si condividono giornate, sorrisi e supporto reciproco.',
   keywords: [
@@ -76,8 +76,8 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'it_IT',
     url: 'https://casanziani.com',
-    siteName: 'C.A.S.A - Comunità Alloggio Sociale',
-    title: 'C.A.S.A. Abbiategrasso: Più che una Struttura, una Vera Famiglia',
+    siteName: 'C.A.S.A di Salute a domicilio',
+    title: 'C.A.S.A di Salute a domicilio',
     description: 'Spesso si cerca una casa di riposo pensando sia l\'unica soluzione. C.A.S.A. vi offre un\'alternativa più calda: niente atmosfera ospedaliera, ma una vera comunità dove si condividono giornate, sorrisi e supporto reciproco.',
     images: [
       {
@@ -90,7 +90,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'C.A.S.A. Abbiategrasso: Più che una Struttura, una Vera Famiglia',
+    title: 'C.A.S.A di Salute a domicilio',
     description: 'Alternativa calda alle case di riposo: una vera comunità dove si condividono giornate, sorrisi e supporto reciproco. Assistenza 24h ad Abbiategrasso.',
     images: ['https://casanziani.com/images/hero-fallback.jpg'],
     creator: '@casanziani',

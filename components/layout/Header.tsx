@@ -9,7 +9,6 @@ import { MobileMenu } from './MobileMenu';
 const navigation = [
   { name: 'Home', href: '/' },
   { name: 'Galleria', href: '/galleria' },
-  { name: 'Blog', href: '/blog' },
   { name: 'Contatti', href: '/#contatti' },
 ];
 
@@ -34,14 +33,14 @@ export function Header() {
       <header
         className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
           isScrolled
-            ? 'bg-white/95 backdrop-blur-md shadow-md'
-            : 'bg-white/80 backdrop-blur-sm'
+            ? 'bg-white/95 backdrop-blur-md shadow-md border-b border-primary-200'
+            : 'bg-white/88 backdrop-blur-sm border-b border-primary-100'
         }`}
       >
-        <nav className="container mx-auto px-6 sm:px-4 py-2 sm:py-3">
+        <nav className="container mx-auto px-4 sm:px-6 py-2.5 sm:py-3">
           <div className="flex items-center justify-between min-h-[48px] sm:min-h-[52px]">
             {/* Logo */}
-            <Link href="/" data-track="nav_click:logo_header" className="flex items-center gap-2 shrink-0 focus:outline-none focus:ring-2 focus:ring-primary-500 rounded">
+            <Link href="/" data-track="nav_click:logo_header" className="flex items-center gap-2.5 shrink-0 focus:outline-none focus:ring-2 focus:ring-primary-500 rounded">
               <Image
                 src="/images/logo.jpg"
                 alt="C.A.S.A Logo"
@@ -51,9 +50,14 @@ export function Header() {
                 sizes="(max-width: 640px) 80px, 96px"
                 priority
               />
-              <span className="font-serif text-base sm:text-lg font-bold text-primary-600 hidden sm:block whitespace-nowrap">
-                C.A.S.A
-              </span>
+              <div className="hidden sm:block">
+                <span className="font-display text-base sm:text-lg font-bold text-premium-ink whitespace-nowrap">
+                  C.A.S.A
+                </span>
+                <span className="block text-[10px] uppercase tracking-[0.16em] text-primary-700">
+                  Salute a domicilio
+                </span>
+              </div>
             </Link>
 
             {/* Desktop Navigation */}
@@ -63,7 +67,7 @@ export function Header() {
                   key={item.name}
                   href={item.href}
                   data-track={`nav_click:${item.name.toLowerCase().replace(/\s/g, '_')}`}
-                  className="text-gray-700 hover:text-primary-600 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-primary-600 rounded px-2 py-1"
+                  className="text-premium-inkSoft hover:text-premium-ink font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-primary-600 rounded px-2 py-1"
                 >
                   {item.name}
                 </Link>
@@ -71,7 +75,7 @@ export function Header() {
               <Link
                 href="/#contatti"
                 data-track="cta_click:chiama_ora_header"
-                className="bg-primary-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-primary-700 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 shadow-md hover:shadow-lg"
+                className="wl-btn-primary px-6 py-2.5 shadow-sm"
               >
                 Chiama ora
               </Link>
@@ -81,7 +85,7 @@ export function Header() {
             <Link
               href="/#contatti"
               data-track="cta_click:contattaci_header_mobile"
-              className="lg:hidden inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold text-white bg-primary-600 hover:bg-primary-700 active:bg-primary-800 shadow-md hover:shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+              className="lg:hidden inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold text-white bg-premium-sage hover:bg-[color:var(--color-sage-dark)] active:bg-[color:var(--color-sage-dark)] shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               <span aria-hidden>Contattaci</span>
@@ -93,7 +97,7 @@ export function Header() {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden p-2 text-gray-700 hover:text-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500 rounded"
+              className="lg:hidden p-2 text-premium-inkSoft hover:text-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500 rounded"
               aria-label="Menu"
               aria-expanded={isMobileMenuOpen}
             >

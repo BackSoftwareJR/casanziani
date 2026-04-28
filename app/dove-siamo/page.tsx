@@ -16,11 +16,11 @@ export const metadata: Metadata = {
 
 export default function DoveSiamoPage() {
   return (
-    <main id="main-content" className="min-h-screen bg-background">
+    <main id="main-content" className="min-h-screen bg-primary-50">
       {/* Hero */}
-      <section className="bg-primary-600 text-white py-12 sm:py-16">
+      <section className="bg-premium-ink text-white py-12 sm:py-16">
         <div className="container mx-auto px-4 sm:px-6">
-          <h1 className="font-serif text-3xl sm:text-4xl font-bold mb-2">
+          <h1 className="font-display text-3xl sm:text-4xl font-bold mb-2 text-white">
             Dove siamo
           </h1>
           <p className="text-white/90 text-lg max-w-2xl">
@@ -50,8 +50,8 @@ export default function DoveSiamoPage() {
 
           {/* Contatti in evidenza */}
           <div className="lg:col-span-1">
-            <div className="bg-gray-50 rounded-2xl p-6 sm:p-8 border border-gray-100 shadow-sm sticky top-24">
-              <h2 className="font-serif text-xl font-bold text-primary-700 mb-6">
+            <div className="bg-white rounded-2xl p-6 sm:p-8 border border-primary-200 shadow-sm sticky top-24">
+              <h2 className="font-display text-xl font-bold text-premium-ink mb-6">
                 I nostri contatti
               </h2>
               <ul className="space-y-5" role="list">
@@ -95,7 +95,7 @@ export default function DoveSiamoPage() {
               <div className="mt-6 pt-6 border-t border-gray-200 flex flex-col gap-3">
                 <Link
                   href="/#contatti"
-                  className="inline-flex items-center justify-center bg-primary-600 text-white px-5 py-3 rounded-xl font-semibold hover:bg-primary-700 transition-colors"
+                    className="wl-btn-primary rounded-xl"
                 >
                   Torna alla home
                 </Link>

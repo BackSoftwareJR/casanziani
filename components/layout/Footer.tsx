@@ -7,7 +7,6 @@ const footerNav = {
     { name: 'Chi siamo', href: '/#chi-siamo' },
     { name: 'Servizi', href: '/#servizi' },
     { name: 'Galleria', href: '/galleria' },
-    { name: 'Blog', href: '/blog' },
     { name: 'Contatti', href: '/#contatti' },
   ],
   legal: [
@@ -23,7 +22,7 @@ const whatsappNumber = siteConfig.contact.whatsapp.replace(/[^0-9]/g, '');
 export function Footer() {
   return (
     <footer
-      className="bg-white text-gray-800 mt-24 border-t border-gray-200"
+      className="bg-premium-surface text-gray-800 mt-24 border-t border-primary-200"
       role="contentinfo"
       aria-label="Piè di pagina"
     >
@@ -40,13 +39,13 @@ export function Footer() {
                 className="rounded-lg object-cover flex-shrink-0"
               />
               <div>
-                <span className="font-serif text-xl font-bold text-primary-800 block">C.A.S.A</span>
-                <span className="text-xs text-gray-600 uppercase tracking-wider block mt-0.5">
-                  Comunità Alloggio Sociale per Anziani
+                <span className="font-display text-xl font-bold text-premium-ink block">C.A.S.A</span>
+                <span className="text-[11px] text-primary-700 uppercase tracking-[0.16em] block mt-0.5">
+                  C.A.S.A di Salute a domicilio
                 </span>
               </div>
             </Link>
-            <p className="mt-4 text-sm text-gray-600 leading-relaxed max-w-xs">
+            <p className="mt-4 text-sm text-premium-inkSoft leading-relaxed max-w-xs">
               Un luogo dove il piacere si vive, l&apos;assistenza si sente, l&apos;accoglienza sorprende.
             </p>
           </div>
@@ -58,7 +57,7 @@ export function Footer() {
           >
             <h3
               id="footer-nav-info"
-              className="text-xs font-semibold text-primary-700 uppercase tracking-wider mb-4"
+              className="text-xs font-semibold text-primary-700 uppercase tracking-[0.16em] mb-4"
             >
               Navigazione
             </h3>
@@ -68,7 +67,7 @@ export function Footer() {
                   <Link
                     href={item.href}
                     data-track={`nav_click:footer_${item.name.toLowerCase().replace(/\s/g, '_')}`}
-                    className="text-sm text-gray-700 hover:text-primary-600 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded"
+                    className="text-sm text-premium-inkSoft hover:text-primary-700 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded"
                   >
                     {item.name}
                   </Link>
@@ -84,7 +83,7 @@ export function Footer() {
           >
             <h3
               id="footer-nav-legal"
-              className="text-xs font-semibold text-primary-700 uppercase tracking-wider mb-4"
+              className="text-xs font-semibold text-primary-700 uppercase tracking-[0.16em] mb-4"
             >
               Legale
             </h3>
@@ -97,7 +96,7 @@ export function Footer() {
                       target="_blank"
                       rel="noopener noreferrer"
                       data-track={`nav_click:footer_${item.name.toLowerCase().replace(/\s/g, '_').replace(/-/g, '_')}`}
-                      className="text-sm text-gray-700 hover:text-primary-600 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded"
+                      className="text-sm text-premium-inkSoft hover:text-primary-700 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded"
                       aria-label={`${item.name} (si apre in nuova finestra, PDF)`}
                     >
                       {item.name}
@@ -106,7 +105,7 @@ export function Footer() {
                     <Link
                       href={item.href}
                       data-track={`nav_click:footer_${item.name.toLowerCase().replace(/\s/g, '_').replace(/-/g, '_')}`}
-                      className="text-sm text-gray-700 hover:text-primary-600 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded"
+                      className="text-sm text-premium-inkSoft hover:text-primary-700 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded"
                     >
                       {item.name}
                     </Link>
@@ -123,11 +122,11 @@ export function Footer() {
           >
             <h3
               id="footer-contact"
-              className="text-xs font-semibold text-primary-700 uppercase tracking-wider mb-4"
+              className="text-xs font-semibold text-primary-700 uppercase tracking-[0.16em] mb-4"
             >
               Contatti
             </h3>
-            <address className="not-italic text-sm text-gray-700 space-y-3">
+            <address className="not-italic text-sm text-premium-inkSoft space-y-3">
               <p className="leading-relaxed">
                 {siteConfig.address.street}<br />
                 {siteConfig.address.postalCode} {siteConfig.address.city} ({siteConfig.address.province})
@@ -135,7 +134,7 @@ export function Footer() {
               <p>
                 <a
                   href={`tel:${phoneClean}`}
-                  className="text-gray-700 hover:text-primary-600 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded"
+                  className="text-premium-inkSoft hover:text-primary-700 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded"
                   aria-label={`Telefono: ${siteConfig.contact.phone}`}
                 >
                   {siteConfig.contact.phone}
@@ -144,7 +143,7 @@ export function Footer() {
               <p>
                 <a
                   href={`mailto:${siteConfig.contact.email}`}
-                  className="text-gray-700 hover:text-primary-600 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded break-all"
+                  className="text-premium-inkSoft hover:text-primary-700 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded break-all"
                   aria-label={`Email: ${siteConfig.contact.email}`}
                 >
                   {siteConfig.contact.email}
@@ -167,12 +166,12 @@ export function Footer() {
         </div>
 
         {/* Copyright, P.IVA e credito */}
-        <div className="mt-12 pt-8 border-t border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-600">
+        <div className="mt-12 pt-8 border-t border-primary-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-premium-inkSoft">
           <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
             <p>
               © {new Date().getFullYear()} C.A.S.A — Tutti i diritti riservati
             </p>
-            <p className="font-medium text-gray-800">
+            <p className="font-medium text-premium-ink">
               P.IVA {PIVA}
             </p>
           </div>
@@ -182,7 +181,7 @@ export function Footer() {
               href="https://backsoftware.it"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-700 hover:text-primary-600 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded font-medium"
+              className="text-premium-inkSoft hover:text-primary-700 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded font-medium"
               aria-label="Backsoftware (si apre in nuova finestra)"
             >
               Backsoftware

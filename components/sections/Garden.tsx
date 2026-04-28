@@ -34,7 +34,7 @@ export function Garden() {
   const show = skipAnimations || inView;
 
   return (
-    <section className="py-20 bg-white">
+    <section className="section-shell-alt">
       <div className="container mx-auto px-4">
         <motion.div
           ref={ref}
@@ -43,10 +43,10 @@ export function Garden() {
           transition={skipAnimations ? { duration: 0 } : { duration: 0.6 }}
           className="text-center mb-12"
         >
-          <h2 className="font-serif text-4xl font-bold text-primary-600 mb-4">
+          <h2 className="section-title mb-4">
             Vita Quotidiana: Attività e Socializzazione
           </h2>
-          <p className="text-lg text-gray-700 max-w-3xl mx-auto leading-relaxed">
+          <p className="section-subtitle max-w-3xl mx-auto">
             A C.A.S.A la giornata si svolge in famiglia: pasti insieme, momenti di relax, giochi e chiacchiere. L’attenzione è sulla vita di tutti i giorni e sulla compagnia, in un ambiente domestico dove gli ospiti si sentono a casa.
           </p>
         </motion.div>
@@ -74,23 +74,23 @@ export function Garden() {
             animate={show ? { opacity: 1, x: 0 } : {}}
             transition={skipAnimations ? { duration: 0 } : { duration: 0.6, delay: 0.3 }}
           >
-            <h3 className="font-serif text-2xl font-bold text-primary-600 mb-6">
+            <h3 className="font-display text-2xl font-bold text-premium-ink mb-6">
               Come si vive ogni giorno
             </h3>
-            <p className="text-gray-700 mb-6 leading-relaxed">
+            <p className="text-premium-inkSoft mb-6 leading-relaxed">
               La convivenza e le attività di tutti i giorni—dalla colazione alla cena, dai giochi alle chiacchiere—creano legami e danno ritmo alla giornata, con beneficio per l’umore e il senso di appartenenza.
             </p>
             <div className="space-y-4">
               {benefits.map((benefit, index) => (
-                  <div key={index} className="flex items-start gap-4 bg-warm-50 p-4 rounded-lg border border-primary-100">
+                  <div key={index} className="flex items-start gap-4 wl-card-soft p-4">
                     <div className="flex-shrink-0 w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center">
                       <ActivityIcon className="text-primary-600" size={24} />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-primary-600 mb-1">
+                      <h4 className="font-semibold text-premium-ink mb-1">
                         {benefit.title}
                       </h4>
-                      <p className="text-gray-600 text-sm">
+                      <p className="text-premium-inkSoft text-sm">
                         {benefit.description}
                       </p>
                     </div>
@@ -127,12 +127,12 @@ export function Garden() {
           ].map((feature, index) => (
             <div
               key={index}
-              className="bg-warm-50 p-6 rounded-xl hover:shadow-lg transition-all duration-300 border border-primary-100"
+              className="wl-card-soft p-6 hover:shadow-lg transition-all duration-300"
             >
-              <h4 className="font-serif text-lg font-bold text-primary-600 mb-2">
+              <h4 className="font-serif text-lg font-bold text-premium-ink mb-2">
                 {feature.title}
               </h4>
-              <p className="text-gray-700 text-sm leading-relaxed">
+              <p className="text-premium-inkSoft text-sm leading-relaxed">
                 {feature.description}
               </p>
             </div>

@@ -35,7 +35,7 @@ export function BlogList({ articles }: BlogListProps) {
         >
         <Link
           href={`/blog/${article.slug}`}
-          className="block bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-primary-100 group"
+          className="block wl-card overflow-hidden hover:shadow-xl transition-all duration-300 group"
         >
           <div className="relative h-48 overflow-hidden">
             <Image
@@ -46,7 +46,7 @@ export function BlogList({ articles }: BlogListProps) {
               sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
             />
             {article.featured && (
-              <div className="absolute top-4 right-4 bg-primary-600 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg">
+              <div className="absolute top-4 right-4 bg-premium-sage text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg">
                 In Evidenza
               </div>
             )}
@@ -60,10 +60,10 @@ export function BlogList({ articles }: BlogListProps) {
                 {format(new Date(article.date), 'd MMM yyyy', { locale: it })}
               </span>
             </div>
-            <h3 className="font-serif text-xl font-bold text-primary-700 mb-2 group-hover:text-primary-800 transition-colors">
+            <h3 className="font-display text-xl font-bold text-premium-ink mb-2 group-hover:text-primary-800 transition-colors">
               {article.title}
             </h3>
-            <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+            <p className="text-premium-inkSoft text-sm mb-4 line-clamp-3">
               {article.excerpt}
             </p>
             <div className="flex items-center justify-between text-sm text-gray-500">

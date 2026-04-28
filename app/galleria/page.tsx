@@ -6,8 +6,6 @@ import { galleryImages } from '@/data/content';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Carousel } from '@/components/ui/Carousel';
 
-const FALLBACK_IMAGE = '/images/gallery/camera1.jpg';
-
 const categories = [
   { id: 'all', name: 'Tutte', count: galleryImages.length },
   { id: 'camere', name: 'Camere', count: galleryImages.filter((img) => img.category === 'camere').length },
@@ -20,11 +18,26 @@ const categories = [
 export default function GalleriaPage() {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
-  const [failedIds, setFailedIds] = useState<Set<number>>(new Set());
+  const [failedSources, setFailedSources] = useState<Set<string>>(new Set());
 
-  const handleImageError = useCallback((id: number) => {
-    setFailedIds((prev) => new Set(prev).add(id));
+  const handleImageError = useCallback((src: string) => {
+    setFailedSources((prev) => new Set(prev).add(src));
   }, []);
+
+  const getImageSource = useCallback(
+    (id: number, src: string, category: string) => {
+      if (!failedSources.has(src)) return src;
+
+      const categoryFallback = galleryImages.find(
+        (img) => img.id !== id && img.category === category && !failedSources.has(img.src)
+      );
+      if (categoryFallback) return categoryFallback.src;
+
+      const globalFallback = galleryImages.find((img) => img.id !== id && !failedSources.has(img.src));
+      return globalFallback?.src ?? src;
+    },
+    [failedSources]
+  );
 
   const filteredImages =
     selectedCategory === 'all'
@@ -32,7 +45,7 @@ export default function GalleriaPage() {
       : galleryImages.filter((img) => img.category === selectedCategory);
 
   const carouselItems = filteredImages.map((image) => {
-    const displaySrc = failedIds.has(image.id) ? FALLBACK_IMAGE : image.src;
+    const displaySrc = getImageSource(image.id, image.src, image.category);
     return (
       <div key={image.id} className="relative w-full h-[70vh] min-h-[500px]">
         <Image
@@ -42,15 +55,15 @@ export default function GalleriaPage() {
           className="object-cover"
           sizes="100vw"
           priority={image.id === filteredImages[0].id}
-          onError={() => handleImageError(image.id)}
-          unoptimized={failedIds.has(image.id)}
+          onError={() => handleImageError(displaySrc)}
+          unoptimized={failedSources.has(displaySrc)}
         />
       </div>
     );
   });
 
   return (
-    <div className="pt-24 pb-20 min-h-screen bg-warm-50">
+    <div className="pt-24 pb-20 min-h-screen bg-primary-50">
       <div className="container mx-auto px-4">
         {/* Header */}
         <motion.div
@@ -59,10 +72,10 @@ export default function GalleriaPage() {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-primary-700 mb-4">
+          <h1 className="section-title mb-4">
             Galleria Fotografica
           </h1>
-          <p className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto">
+          <p className="section-subtitle max-w-3xl mx-auto">
             Scopri gli spazi accoglienti di C.A.S.A: un ambiente familiare dove ogni dettaglio è curato per il benessere dei nostri ospiti
           </p>
         </motion.div>
@@ -80,8 +93,8 @@ export default function GalleriaPage() {
               onClick={() => setSelectedCategory(category.id)}
               className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-600 ${
                 selectedCategory === category.id
-                  ? 'bg-primary-600 text-white shadow-lg scale-105'
-                  : 'bg-white text-primary-600 hover:bg-primary-50 border border-primary-200'
+                  ? 'bg-premium-sage text-white shadow-lg scale-105'
+                  : 'bg-white text-primary-700 hover:bg-primary-50 border border-primary-200'
               }`}
             >
               {category.name} ({category.count})
@@ -112,7 +125,7 @@ export default function GalleriaPage() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
-          <h2 className="font-serif text-3xl font-bold text-primary-600 mb-8 text-center">
+          <h2 className="section-title text-3xl mb-8 text-center">
             Esplora Tutte le Immagini
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
@@ -128,13 +141,13 @@ export default function GalleriaPage() {
                   onClick={() => setSelectedImage(image.id)}
                 >
                   <Image
-                    src={failedIds.has(image.id) ? FALLBACK_IMAGE : image.src}
+                    src={getImageSource(image.id, image.src, image.category)}
                     alt={image.alt}
                     fill
                     className="object-cover transition-transform duration-300 group-hover:scale-110"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                    onError={() => handleImageError(image.id)}
-                    unoptimized={failedIds.has(image.id)}
+                    onError={() => handleImageError(getImageSource(image.id, image.src, image.category))}
+                    unoptimized={failedSources.has(getImageSource(image.id, image.src, image.category))}
                   />
                 </motion.div>
               ))}
@@ -163,7 +176,7 @@ export default function GalleriaPage() {
               {(() => {
                 const image = galleryImages.find((img) => img.id === selectedImage);
                 if (!image) return null;
-                const displaySrc = failedIds.has(image.id) ? FALLBACK_IMAGE : image.src;
+                const displaySrc = getImageSource(image.id, image.src, image.category);
                 return (
                   <>
                     <div className="relative w-full h-[80vh] rounded-lg overflow-hidden">
@@ -173,7 +186,8 @@ export default function GalleriaPage() {
                         fill
                         className="object-contain"
                         sizes="100vw"
-                        unoptimized={failedIds.has(image.id)}
+                        onError={() => handleImageError(displaySrc)}
+                        unoptimized={failedSources.has(displaySrc)}
                       />
                     </div>
                     <button

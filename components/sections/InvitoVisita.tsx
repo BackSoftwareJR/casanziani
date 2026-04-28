@@ -16,7 +16,7 @@ export function InvitoVisita() {
 
   return (
     <section
-      className="py-12 sm:py-16 lg:py-20 bg-primary-50"
+      className="section-shell"
       aria-labelledby="invito-visita-heading"
     >
       <div className="container mx-auto px-4 sm:px-6">
@@ -31,29 +31,32 @@ export function InvitoVisita() {
           >
             <h2
               id="invito-visita-heading"
-              className="font-serif text-3xl sm:text-4xl font-bold text-primary-700 mb-4"
+              className="section-title text-3xl sm:text-4xl mb-4"
             >
-              Vieni a conoscerci
+              Hai qualcuno a cui C.A.S.A. potrebbe fare bene?
             </h2>
-            <p className="text-base sm:text-lg text-gray-700 leading-relaxed mb-6 max-w-xl mx-auto lg:mx-0">
-              Una visita in struttura è il modo migliore per capire se C.A.S.A è la scelta giusta per te o per un tuo caro. Ti mostriamo gli spazi, rispondiamo a ogni domanda e ti facciamo sentire a casa.
+            <p className="section-subtitle text-base sm:text-lg mb-6 max-w-xl mx-auto lg:mx-0">
+              Prenota una visita gratuita. Vieni a vedere gli spazi, incontra lo staff, fai tutte
+              le domande che hai in testa. Nessun impegno, solo una conversazione onesta.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start">
               <Link
                 href="#contatti"
                 data-track="cta_click:contattaci_visita"
-                className="min-h-[48px] flex items-center justify-center bg-primary-600 text-white px-6 py-4 rounded-xl font-semibold text-base hover:bg-primary-700 active:bg-primary-800 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+                className="min-h-[48px] wl-btn-primary text-base"
                 aria-label="Vai alla sezione Contatti per fissare una visita"
               >
-                Contattaci per una visita
+                Prenota una visita
               </Link>
               <Link
-                href="/galleria"
-                data-track="cta_click:galleria_invito"
-                className="min-h-[48px] flex items-center justify-center bg-white text-primary-600 border-2 border-primary-500 px-6 py-4 rounded-xl font-semibold text-base hover:bg-primary-50 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
-                aria-label="Esplora la galleria fotografica"
+                href="https://wa.me/393490631492"
+                target="_blank"
+                rel="noopener noreferrer"
+                data-track="cta_click:whatsapp_invito"
+                className="min-h-[48px] wl-btn-secondary text-base"
+                aria-label="Apri WhatsApp per contattarci"
               >
-                Guarda la galleria
+                Scrivici su WhatsApp
               </Link>
             </div>
           </motion.div>

@@ -1,0 +1,116 @@
+.lifestyle {
+  padding: var(--spacing-8) 0;
+  background-color: var(--color-surface);
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .lifestyle {
+    padding: var(--spacing-15) 0;
+  }
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-6);
+  position: relative;
+}
+
+@media (min-width: 1024px) {
+  .container {
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: var(--spacing-10);
+  }
+}
+
+.content {
+  z-index: 2;
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.imagePlaceholder {
+  width: 100%;
+  aspect-ratio: 4/3;
+  background-color: var(--color-surface);
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding: var(--spacing-4);
+  border: 1px solid rgba(62, 44, 32, 0.08);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+@media (min-width: 1024px) {
+  .imagePlaceholder {
+    aspect-ratio: 1/1;
+    border-radius: var(--radius-xl);
+  }
+}
+
+.label {
+  background: rgba(250,248,245,0.85);
+  backdrop-filter: blur(8px);
+  padding: 8px 16px;
+  border-radius: 100px;
+  font-size: var(--text-sm);
+  color: var(--color-text-heading);
+  font-weight: 500;
+  border: 1px solid rgba(62,44,32,0.1);
+}
+
+.badge {
+  background-color: var(--color-background);
+  padding: var(--spacing-4);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  z-index: 10;
+  border: 1px solid rgba(62,44,32,0.08);
+  width: fit-content;
+  margin-top: var(--spacing-4);
+}
+
+@media (min-width: 1024px) {
+  .badge {
+    position: absolute;
+    bottom: -20px;
+    left: -40px;
+    margin-top: 0;
+  }
+}
+
+.badgeIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background-color: var(--color-primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.badgeTitle {
+  display: block;
+  color: var(--color-text-heading);
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.badgeText {
+  font-size: var(--text-sm);
+  color: var(--color-text-main);
+  opacity: 0.8;
+}

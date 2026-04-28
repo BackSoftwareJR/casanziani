@@ -8,6 +8,14 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        premium: {
+          sage: '#7C8F7A',
+          cream: '#F7F4ED',
+          terracotta: '#B86F52',
+          ink: '#243241',
+          inkSoft: '#4D5A69',
+          surface: '#FFFCF8',
+        },
         primary: {
           50: '#FDFBF8',
           100: '#FAF7F0',
@@ -65,6 +73,8 @@ module.exports = {
         '6xl': ['3.75rem', { lineHeight: '1.1' }],
       },
       spacing: {
+        'section-sm': '3.5rem',
+        'section-md': '5rem',
         '18': '4.5rem',
         '88': '22rem',
         '128': '32rem',

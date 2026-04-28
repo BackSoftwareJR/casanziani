@@ -11,7 +11,7 @@ const getIconComponent = (iconName: string) => {
 
 export function Services() {
   return (
-    <section id="servizi" className="relative py-16 md:py-24 overflow-hidden">
+    <section id="servizi" className="relative section-shell overflow-hidden">
       {/* Sfondo immagine full-width — desktop: camera1, mobile: immagine attuale */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0">
@@ -44,12 +44,14 @@ export function Services() {
       <div className="relative z-10">
         {/* Header — visibile subito, senza animazione */}
         <div className="container mx-auto px-6 md:px-8 max-w-4xl text-center mb-12 md:mb-16">
-          <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-3 tracking-tight drop-shadow-sm">
-            I Nostri Servizi
+          <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-3 tracking-tight drop-shadow-sm">
+            Cosa offriamo, concretamente.
           </h2>
           <div className="w-20 h-1 bg-white/80 rounded-full mx-auto mb-6" aria-hidden />
           <p className="text-base md:text-lg text-white/95 leading-relaxed max-w-3xl mx-auto drop-shadow-sm">
-            Per ogni ospite definiamo un progetto individualizzato all&apos;ingresso, costruito insieme alla famiglia, con valutazione dei bisogni relazionali, sociali e riabilitativi. Il progetto viene periodicamente rivisto per adattarsi all&apos;evoluzione delle esigenze.
+            Ogni ospite entra con un progetto individualizzato, costruito insieme alla famiglia.
+            Non un modulo standard: un accordo reale su abitudini, preferenze ed esigenze,
+            rivisto nel tempo, man mano che cambia la vita.
           </p>
         </div>
 
@@ -80,21 +82,21 @@ export function Services() {
 
         {/* CTA — stile classico, sfondo pieno e testo */}
         <div className="container mx-auto px-6 md:px-8 max-w-2xl mt-12 md:mt-16">
-          <div className="text-center py-8 md:py-10 px-6 rounded-2xl bg-white border border-primary-200 shadow-lg">
-            <h3 className="font-serif text-2xl md:text-3xl font-bold text-primary-800 mb-3">Pronto a iniziare?</h3>
-            <p className="text-gray-700 mb-6 leading-relaxed">
-              Contattaci e prenota una visita gratuita, senza impegno.
+          <div className="text-center py-8 md:py-10 px-6 wl-card">
+            <h3 className="font-display text-2xl md:text-3xl font-bold text-premium-ink mb-3">Pronto a iniziare?</h3>
+            <p className="text-premium-inkSoft mb-6 leading-relaxed">
+              Prenota una visita gratuita e capiamo insieme se C.A.S.A. e la scelta giusta.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <a
                 href="/galleria"
-                className="inline-flex justify-center items-center bg-primary-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-primary-700 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 shadow-md text-sm md:text-base"
+                className="wl-btn-primary text-sm md:text-base"
               >
                 Vedi Galleria
               </a>
               <a
                 href="/#contatti"
-                className="inline-flex justify-center items-center border-2 border-primary-500 text-primary-600 px-6 py-3 rounded-full font-semibold hover:bg-primary-50 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm md:text-base"
+                className="wl-btn-secondary text-sm md:text-base"
               >
                 Maggiori informazioni
               </a>
